@@ -6,11 +6,11 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 16:12:12 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/01/05 16:14:40 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/01/07 16:13:15 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_push_swap.h"
+#include "push_swap.h"
 
 int		push(t_stack *stack, int i)
 {

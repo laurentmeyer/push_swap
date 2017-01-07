@@ -6,18 +6,17 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 14:57:50 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/01/05 20:05:45 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/01/07 16:54:17 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
-#include "ft_push_swap.h"
+#include "push_swap.h"
 #include "get_next_line.h"
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-#define BUF_SIZE 1024
 #define ERR -1
 
 static int	fill_stack(t_stack *a, char **av, int ac)
@@ -31,30 +30,6 @@ static int	fill_stack(t_stack *a, char **av, int ac)
 		--ac;
 	}
 	return (1);
-}
-
-static int	do_op(char *s)
-{
-	int	tmp1;
-	int tmp2;
-
-	if (ft_strequ(s, "sa"))
-		return (op_swap(data->a));
-	else if (ft_strequ(s, "sb"))
-		return (op_swap(data->b));
-	else if (ft_strequ(s, "ss"))
-		return (op_swap(data->a) || op_swap(data->b));
-	else if (ft_strequ(s, "pa"))
-		return (op_push_a(data));
-	else if (ft_strequ(s, "pb"))
-		return (op_push_a(data));
-	else if (ft_strequ(s, "ra"))
-	else if (ft_strequ(s, "rb"))
-	else if (ft_strequ(s, "rr"))
-	else if (ft_strequ(s, "rra"))
-	else if (ft_strequ(s, "rrb"))
-	else if (ft_strequ(s, "rrr"))
-	return (ERR);
 }
 
 static int	is_sorted(t_data *data)
@@ -80,18 +55,19 @@ int			main(int ac, char **av)
 	int		visual;
 
 	if (ac-- < 2)
-		return(ft_printf("Erreur\n"));
+		return (write(STDERR_FILENO, "Erreur\n", 7) - 7);
 	if ((visual = ft_strequ("-v", av[1]) ? 1 : 0) && ++av)
 		--ac;
 	if (!(data = init_data(ac)) || !fill_stack(data->a, av, ac))
-		return(ft_printf("Erreur\n"));
+		return (write(STDERR_FILENO, "Erreur\n", 7) - 7);
 	print_data(data, visual);
 	while ((gnl = gnlite(STDIN_FILENO, &s)))
 	{
-		if (gnl == ERR || do_op(s) == ERR)
-			return(ft_printf("Erreur\n"));
+		if (gnl == ERR || do_op(data, s) == ERR)
+			return (write(STDERR_FILENO, "Erreur\n", 7) - 7);
 		print_data(data, visual);
 		free(s);
 	}
-	return (ft_printf("%s\n", is_sorted(data) ? "OK" : "KO"));
+	ft_printf("%s\n", is_sorted(data) ? "OK" : "KO");
+	return (0);
 }

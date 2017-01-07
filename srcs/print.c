@@ -6,11 +6,11 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 16:19:18 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/01/05 16:23:16 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/01/07 16:13:11 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_push_swap.h"
+#include "push_swap.h"
 #include "ft_printf.h"
 
 void	print_data(t_data *data, int visual_on)

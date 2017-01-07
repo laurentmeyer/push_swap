@@ -6,12 +6,12 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/05 15:53:33 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/01/05 16:16:26 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/01/07 16:13:04 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "ft_push_swap.h"
+#include "push_swap.h"
 
 static t_stack	*init_stack(size_t max)
 {

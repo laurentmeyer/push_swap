@@ -8,6 +8,8 @@ HEADERDIR = includes
 
 SRCFILES =	init.c			\
 			push.c			\
+			pop.c			\
+			do_op.c			\
 			print.c
 
 CCHEADERS = -I./$(HEADERDIR)				\
@@ -35,7 +37,7 @@ $(CHECKER) : $(CHECKEROBJS)
 	$(MAKE) -C $(LIBFT)
 	$(CC) $(CCHEADERS) $(CCLIBS) $(CHECKEROBJS) -o $(CHECKER)
 
-$(PUSHSWAP) : $(OBJECTS)
+$(PUSHSWAP) : $(PUSHSWAPOBJS)
 	$(MAKE) -C $(LIBFT)
 	$(CC) $(CCHEADERS) $(CCLIBS) $(PUSHSWAPOBJS) -o $(PUSHSWAP)
 
