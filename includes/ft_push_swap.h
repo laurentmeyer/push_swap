@@ -14,20 +14,20 @@
 # define FT_PUSH_SWAP
 # include <stdlib.h>
 
-enum			e_weights
-{
-	sa = 1,
-	sb = 1,
-	pa = 1,
-	pb = 1,
-	ra = 1,
-	rb = 1,
-	rra = 1,
-	rrb = 1,
-	ss = 2,
-	rr = 2,
-	rrr = 2
-};
+//enum			e_weights
+//{
+//	sa = 1,
+//	sb = 1,
+//	pa = 1,
+//	pb = 1,
+//	ra = 1,
+//	rb = 1,
+//	rra = 1,
+//	rrb = 1,
+//	ss = 2,
+//	rr = 2,
+//	rrr = 2
+//};
 
 enum			e_instructs
 {
@@ -46,7 +46,7 @@ enum			e_instructs
 
 typedef struct	s_stack
 {
-	size_t		count;
+	int			count;
 	int			*data;
 }				t_stack;
 
@@ -58,6 +58,6 @@ typedef struct	s_data
 
 t_data			*init_data(size_t max);
 int				push(t_stack *stack, int i);
-void			print_data(t_data *data);
+void			print_data(t_data *data, int visual_on);
 
 #endif

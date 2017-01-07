@@ -15,5 +15,6 @@
 int		push(t_stack *stack, int i)
 {
 	(stack->data)[(stack->count)++] = i;
-	return (stack->count);
+	return (1);
+//	return (stack->count);
 }

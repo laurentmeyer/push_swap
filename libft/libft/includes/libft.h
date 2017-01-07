@@ -101,5 +101,6 @@ void					ft_strtolower(char *s);
 char					*ft_strlast(char *s);
 char					*ft_wcrtoutf(wchar_t w);
 int						ft_valid_int_str(char *s);
+int						gnlite(const int fd, char **line);
 
 #endif

@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include "libft.h"
 #include "get_next_line.h"
-#include <stdio.h>
 #define ERR -1
 
 t_buf			*ft_newbuf(t_buf **buffers, int fd)

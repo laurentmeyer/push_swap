@@ -18,12 +18,7 @@
 #include <sys/uio.h>
 #include <unistd.h>
 #define BUF_SIZE 1024
-
-static int	error(void)
-{
-	ft_printf("Erreur\n");
-	return (0);
-}
+#define ERR -1
 
 static int	fill_stack(t_stack *a, char **av, int ac)
 {
@@ -38,45 +33,65 @@ static int	fill_stack(t_stack *a, char **av, int ac)
 	return (1);
 }
 
-//static char	*get_stdin(void)
-//{
-//	char	*res;
-//	char	*tmp;
-//	char	buf[BUF_SIZE + 1];
-//
-//	ft_bzero(buf, sizeof(buf));
-//	if (!(res = ft_strdup("")))
-//		return (NULL);
-//	while (read(0, buf, BUF_SIZE))
-//	{
-//		tmp = res;
-//		if (!(res = ft_strjoin(res, buf)))
-//			return (NULL);
-//		free(tmp);
-//		ft_bzero(buf, sizeof(buf));
-//	}
-//	return (res);
-//}
+static int	do_op(char *s)
+{
+	int	tmp1;
+	int tmp2;
+
+	if (ft_strequ(s, "sa"))
+		return (op_swap(data->a));
+	else if (ft_strequ(s, "sb"))
+		return (op_swap(data->b));
+	else if (ft_strequ(s, "ss"))
+		return (op_swap(data->a) || op_swap(data->b));
+	else if (ft_strequ(s, "pa"))
+		return (op_push_a(data));
+	else if (ft_strequ(s, "pb"))
+		return (op_push_a(data));
+	else if (ft_strequ(s, "ra"))
+	else if (ft_strequ(s, "rb"))
+	else if (ft_strequ(s, "rr"))
+	else if (ft_strequ(s, "rra"))
+	else if (ft_strequ(s, "rrb"))
+	else if (ft_strequ(s, "rrr"))
+	return (ERR);
+}
+
+static int	is_sorted(t_data *data)
+{
+	int	i;
+
+	if (data->b->count != 0)
+		return (0);
+	if (data->a->count == 1)
+		return (1);
+	i = -1;
+	while (++i < data->a->count - 1)
+		if ((data->a->data)[i] <= (data->a->data)[i + 1])
+			return (0);
+	return (1);
+}
 
 int			main(int ac, char **av)
 {
 	t_data	*data;
 	char	*s;
-	int		i;
+	int		gnl;
+	int		visual;
 
-	if (ac < 2 || !(data = init_data(--ac)) || !fill_stack(data->a, av, ac))
-		return(error());
-	print_data(data);
-//	if (!(s = get_stdin()))
-//		return (error());
-	while (42)
+	if (ac-- < 2)
+		return(ft_printf("Erreur\n"));
+	if ((visual = ft_strequ("-v", av[1]) ? 1 : 0) && ++av)
+		--ac;
+	if (!(data = init_data(ac)) || !fill_stack(data->a, av, ac))
+		return(ft_printf("Erreur\n"));
+	print_data(data, visual);
+	while ((gnl = gnlite(STDIN_FILENO, &s)))
 	{
-		ft_printf("debut boucle");
-		if (!(i = get_next_line(STDIN_FILENO, &s)))
-			return (ft_printf("fin de get next line \n"));
-		ft_printf("gnl return = %d", i);
-		ft_printf("s = %s\n", s);
+		if (gnl == ERR || do_op(s) == ERR)
+			return(ft_printf("Erreur\n"));
+		print_data(data, visual);
 		free(s);
 	}
-	return (0);
+	return (ft_printf("%s\n", is_sorted(data) ? "OK" : "KO"));
 }
