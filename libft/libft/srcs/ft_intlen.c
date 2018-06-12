@@ -1,19 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 15:40:00 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/09/04 14:56:05 by lmeyer           ###   ########.fr       */
+/*   Created: 2016/11/04 15:40:09 by lmeyer            #+#    #+#             */
+/*   Updated: 2017/10/12 16:02:36 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+int	ft_intlen(int n)
 {
-	new->next = *alst;
-	*alst = new;
+	int res;
+
+	res = 1;
+	if (n == MININT)
+		return (MININTSIZE);
+	else if (n < 0)
+		return (1 + ft_intlen(-n));
+	while ((n = n / 10))
+		++res;
+	return (res);
 }

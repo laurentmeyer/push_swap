@@ -1,19 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_basename.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 15:40:00 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/09/04 14:56:05 by lmeyer           ###   ########.fr       */
+/*   Created: 2017/09/07 14:35:36 by lmeyer            #+#    #+#             */
+/*   Updated: 2017/10/14 14:41:42 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_lstadd(t_list **alst, t_list *new)
+char	*ft_basename(char *path)
 {
-	new->next = *alst;
-	*alst = new;
+	int		i;
+
+	if (!path || !*path)
+		return (".");
+	i = 0;
+	while (path[++i])
+		;
+	while (path[--i] == '/')
+		if (i == 0)
+			return ("/");
+	while (path[i] != '/' && i >= 0)
+		--i;
+	return (path + i + 1);
 }

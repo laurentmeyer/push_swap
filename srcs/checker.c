@@ -50,21 +50,21 @@ static int	is_sorted(t_data *data)
 int			main(int ac, char **av)
 {
 	t_data	*data;
-	char	*s;
-	int		gnl;
-	int		visual;
+	char *s;
+	int gnl;
+	int visual;
 
 	if (ac-- < 2)
-		return (write(STDERR_FILENO, "Erreur\n", 7) - 7);
+		return (ft_dprintf(STDERR_FILENO, "%s\n", "Error"));
 	if ((visual = ft_strequ("-v", av[1]) ? 1 : 0) && ++av)
 		--ac;
 	if (!(data = init_data(ac)) || !fill_stack(data->a, av, ac))
-		return (write(STDERR_FILENO, "Erreur\n", 7) - 7);
+		return (ft_dprintf(STDERR_FILENO, "%s\n", "Error"));
 	print_data(data, visual);
 	while ((gnl = gnlite(STDIN_FILENO, &s)))
 	{
 		if (gnl == ERR || do_op(data, s) == ERR)
-			return (write(STDERR_FILENO, "Erreur\n", 7) - 7);
+			return (ft_dprintf(STDERR_FILENO, "%s\n", "Error"));
 		print_data(data, visual);
 		free(s);
 	}

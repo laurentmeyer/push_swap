@@ -16,8 +16,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include <stdio.h>
-
 int		ft_vprintf(const char *format, va_list ap)
 {
 	char	*str;

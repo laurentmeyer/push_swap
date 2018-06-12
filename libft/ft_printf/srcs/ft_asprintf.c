@@ -6,7 +6,7 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 11:26:13 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/01/02 21:10:40 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/10/20 14:01:57 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include "ft_printf.h"
 #include <stdlib.h>
 #include <stdarg.h>
-
-#include <stdio.h>
 
 static void	remove_double_percent(char *s)
 {
@@ -46,16 +44,17 @@ int			ft_vasprintf(char **ret, const char *format, va_list ap)
 
 	if (!(*ret = ft_strdup(format)))
 		return (ERR);
-	while ((find_next_conversion(*ret, &start, &end)))
+	len = 0;
+	while ((find_next_conversion(*ret + len, &start, &end)))
 	{
-		if (!(conv = new_conversion(start, end - start + 1)))
-			return (ERR);
-		interpret = interpret_arg(conv, ap);
-		free(conv);
-		if (!interpret
+		len = start - *ret;
+		if (!(conv = new_conversion(start, end - start + 1))
+				|| !(interpret = interpret_arg(conv, ap))
 				|| !(*ret = ft_insert_str(*ret, start, end + 1, interpret)))
 			return (ERR);
+		free(conv);
 		free(interpret);
+		len += ft_strlen(interpret);
 	}
 	remove_double_percent(*ret);
 	len = ft_strlen(*ret);

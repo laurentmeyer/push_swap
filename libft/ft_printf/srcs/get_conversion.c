@@ -6,15 +6,13 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/02 21:25:17 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/01/02 21:25:36 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/10/20 14:01:41 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
 #include <stdlib.h>
-
-#include <stdio.h>
 
 static char		*requalify_conversion(char *s)
 {

@@ -1,0 +1,10 @@
+{
+	"C_Cpp.default.includePath": [
+		"${workspaceFolder}/includes",
+		"${workspaceFolder}/libft/libft/includes",
+		"${workspaceFolder}/libft/ft_printf/includes"
+	],
+	"files.associations": {
+		"libft.h": "c"
+	}
+}

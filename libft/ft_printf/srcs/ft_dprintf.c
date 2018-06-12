@@ -1,22 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 15:39:45 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/09/05 13:01:39 by lmeyer           ###   ########.fr       */
+/*   Created: 2017/10/12 17:11:59 by lmeyer            #+#    #+#             */
+/*   Updated: 2017/10/12 17:12:02 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
 #include "libft.h"
+#include <stdarg.h>
 #include <stdlib.h>
-#include <string.h>
+#include <unistd.h>
 
-void	ft_lstdelone(t_list **alst, void (*del)(void *, size_t))
+int		ft_vdprintf(int fd, const char *format, va_list ap)
 {
-	(*del)((*alst)->content, (*alst)->content_size);
-	free(*alst);
-	*alst = NULL;
+	char	*str;
+	int		ret;
+
+	if ((ret = ft_vasprintf(&str, format, ap)) == ERR)
+		return (ERR);
+	write(fd, str, ret);
+	free(str);
+	return (ret);
+}
+
+int		ft_dprintf(int fd, const char *format, ...)
+{
+	va_list		ap;
+	int			ret;
+
+	va_start(ap, format);
+	ret = ft_vdprintf(fd, format, ap);
+	va_end(ap);
+	return (ret);
 }

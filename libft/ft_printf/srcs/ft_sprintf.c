@@ -1,38 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*   ft_sprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 15:40:09 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/10/12 15:57:54 by lmeyer           ###   ########.fr       */
+/*   Created: 2017/10/12 17:16:05 by lmeyer            #+#    #+#             */
+/*   Updated: 2017/10/12 17:31:34 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_printf.h"
+#include <stdlib.h>
+#include <stdarg.h>
 
-char		*ft_itoa(int n)
+int		ft_vsprintf(char *str, const char *format, va_list ap)
 {
+	int		ret;
 	char	*tmp;
-	int		l;
 
-	l = ft_intlen(n);
-	if (n == MININT)
-		tmp = ft_strdup(MININTSTR);
-	else if ((tmp = ft_strnew(l)))
-	{
-		if (n < 0)
-		{
-			tmp[0] = '-';
-			n = -n;
-		}
-		while (n >= 10)
-		{
-			tmp[--l] = n % 10 + '0';
-			n /= 10;
-		}
-		tmp[--l] = n % 10 + '0';
-	}
-	return (tmp);
+	if ((ret = ft_vasprintf(&tmp, format, ap)) == ERR)
+		return (ERR);
+	ft_strcpy(str, tmp);
+	free(tmp);
+	return (ret);
+}
+
+int		ft_sprintf(char *str, const char *format, ...)
+{
+	va_list		ap;
+	int			ret;
+
+	va_start(ap, format);
+	ret = ft_vsprintf(str, format, ap);
+	va_end(ap);
+	return (ret);
 }

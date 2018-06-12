@@ -2,7 +2,7 @@ CC = 		gcc
 CFLAGS =	-Wall -Wextra -Werror
 CHECKER =	checker
 PUSHSWAP =	push_swap
-BUILDDIR =	srcs
+BUILDDIR =	builds
 SOURCEDIR =	srcs
 HEADERDIR = includes
 
@@ -42,6 +42,7 @@ $(PUSHSWAP) : $(PUSHSWAPOBJS)
 	$(CC) $(CCHEADERS) $(CCLIBS) $(PUSHSWAPOBJS) -o $(PUSHSWAP)
 
 $(BUILDDIR)/%.o : $(SOURCEDIR)/%.c
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) $(CCHEADERS) -c $< -o $@
 
 clean:

@@ -1,19 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   btree_create_node.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 15:40:00 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/09/04 14:56:05 by lmeyer           ###   ########.fr       */
+/*   Created: 2017/09/12 22:10:48 by lmeyer            #+#    #+#             */
+/*   Updated: 2017/10/14 11:38:09 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_btree.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+t_btree	*btree_create_node(void *item)
 {
-	new->next = *alst;
-	*alst = new;
+	t_btree	*res;
+
+	if (!(res = (t_btree *)malloc(sizeof(t_btree))))
+		return (NULL);
+	res->item = item;
+	res->parent = NULL;
+	res->left = NULL;
+	res->right = NULL;
+	return (res);
 }

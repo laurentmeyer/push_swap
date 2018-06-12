@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnlite.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/14 11:40:14 by lmeyer            #+#    #+#             */
+/*   Updated: 2017/10/14 11:40:26 by lmeyer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -31,7 +43,7 @@ static int	read_buf(char buf[BUFF_SIZE + 2], int fd, char **start)
 	return (1);
 }
 
-int		gnlite(const int fd, char **line)
+int			gnlite(const int fd, char **line)
 {
 	static char		buf[BUFF_SIZE + 2] = {'\0'};
 	static char		*start = buf;

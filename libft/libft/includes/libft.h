@@ -6,7 +6,7 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/04 15:47:56 by lmeyer            #+#    #+#             */
-/*   Updated: 2017/01/05 14:56:12 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/10/12 15:59:11 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ typedef	struct			s_list
 	size_t				content_size;
 	struct s_list		*next;
 }						t_list;
+
+typedef int				(t_listcmp)(t_list *l1, t_list *l2);
+typedef void			(t_listdisplay)(t_list *l);
 
 void					*ft_memset(void *b, int c, size_t len);
 void					ft_bzero(void *s, size_t n);
@@ -102,5 +105,14 @@ char					*ft_strlast(char *s);
 char					*ft_wcrtoutf(wchar_t w);
 int						ft_valid_int_str(char *s);
 int						gnlite(const int fd, char **line);
+int						ft_getopt(int argc, char **argv,
+										const char *optstring);
+t_list					*ft_lstpop(t_list **elem);
+size_t					ft_lstlen(t_list *start);
+void					ft_lstsort(t_list **alst, t_listcmp *f);
+void					ft_lstappend(t_list **alst, t_list *to_append);
+void					ft_lstrev(t_list **alst);
+char					*ft_basename(char *path);
+int						ft_intlen(int n);
 
 #endif

@@ -6,14 +6,13 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/20 11:26:07 by lmeyer            #+#    #+#             */
-/*   Updated: 2016/12/22 15:26:27 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/10/20 14:03:31 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
 #include <stdlib.h>
-#include <stdio.h>
 
 char		*handler_null(t_conv *conv, void *arg)
 {

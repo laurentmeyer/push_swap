@@ -19,6 +19,7 @@ OBJECTS =	ft_memset.o			\
 			ft_strcmp.o			\
 			ft_strncmp.o		\
 			ft_atoi.o			\
+			ft_intlen.o			\
 			ft_isalpha.o		\
 			ft_isdigit.o		\
 			ft_isalnum.o		\
@@ -68,11 +69,22 @@ OBJECTS =	ft_memset.o			\
 			ft_strlast.o		\
 			ft_valid_int_str.o	\
 			ft_wcrtoutf.o		\
-			gnlite.o
+			gnlite.o			\
+			ft_getopt.o			\
+			ft_lstpop.o			\
+			ft_lstsort.o		\
+			ft_lstlen.o			\
+			ft_lstappend.o		\
+			ft_lstrev.o			\
+			ft_basename.o		\
+			btree_create_node.o	\
+			btree_insert_node.o
 
 NAME = libft_original.a
 
-CCHEADERS = -I ./includes/
+CCHEADERS = -I./includes/		\
+			-I../ft_printf/includes
+
 
 CCSOURCES = ./srcs/
 

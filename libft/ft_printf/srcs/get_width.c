@@ -6,14 +6,12 @@
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/21 20:40:52 by lmeyer            #+#    #+#             */
-/*   Updated: 2016/12/21 21:15:09 by lmeyer           ###   ########.fr       */
+/*   Updated: 2017/10/20 14:03:23 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
-
-#include <stdio.h>
 
 int			get_width(char *s)
 {

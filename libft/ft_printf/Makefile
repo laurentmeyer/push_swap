@@ -10,6 +10,8 @@ CCHEADERS = -I./$(HEADERDIR)		\
 
 SRCFILES =	ft_printf.c				\
 			ft_asprintf.c			\
+			ft_sprintf.c			\
+			ft_dprintf.c			\
 			get_conversion.c		\
 			get_handler.c			\
 			get_modifier.c			\
