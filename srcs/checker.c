@@ -10,64 +10,67 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "push_swap.h"
 #include "libft.h"
 #include "ft_printf.h"
-#include "push_swap.h"
 #include "get_next_line.h"
 #include <sys/types.h>
 #include <sys/uio.h>
+#include <stdlib.h>
 #include <unistd.h>
-#define ERR -1
 
-static int	fill_stack(t_stack *a, char **av, int ac)
-{
-	while (ac > 0)
-	{
-		if (!ft_valid_int_str(av[ac]))
-			return(0);
-		else
-			push(a, ft_atoi(av[ac]));
-		--ac;
-	}
-	return (1);
-}
-
-static int	is_sorted(t_data *data)
+static int	is_sorted(t_stacks stacks)
 {
 	int	i;
 
-	if (data->b->count != 0)
+	if (stacks.b.count != 0)
 		return (0);
-	if (data->a->count == 1)
+	if (stacks.a.count == 1)
 		return (1);
 	i = -1;
-	while (++i < data->a->count - 1)
-		if ((data->a->data)[i] <= (data->a->data)[i + 1])
+	while (++i < stacks.a.count - 1)
+		if ((stacks.a.elements)[i] <= (stacks.a.elements)[i + 1])
 			return (0);
 	return (1);
 }
 
-int			main(int ac, char **av)
+static int main_loop(t_stacks *stacks)
 {
-	t_data	*data;
-	char *s;
-	int gnl;
-	int visual;
+	int			gnl;
+	char		*s;
 
-	if (ac-- < 2)
-		return (ft_dprintf(STDERR_FILENO, "%s\n", "Error"));
-	if ((visual = ft_strequ("-v", av[1]) ? 1 : 0) && ++av)
-		--ac;
-	if (!(data = init_data(ac)) || !fill_stack(data->a, av, ac))
-		return (ft_dprintf(STDERR_FILENO, "%s\n", "Error"));
-	print_data(data, visual);
-	while ((gnl = gnlite(STDIN_FILENO, &s)))
+	gnl = gnlite(STDIN_FILENO, &s);
+	if (0 == gnl)
 	{
-		if (gnl == ERR || do_op(data, s) == ERR)
-			return (ft_dprintf(STDERR_FILENO, "%s\n", "Error"));
-		print_data(data, visual);
-		free(s);
+		ft_printf("%s\n", is_sorted(*stacks) ? "OK" : "KO");
+		while (42);
+		exit(0);
 	}
-	ft_printf("%s\n", is_sorted(data) ? "OK" : "KO");
-	return (0);
+	else if (ERR == gnl || ERR == do_op(stacks, s))
+		exit_message(ERR, "Error\n");
+	refresh_display(stacks->display, stacks);
+	free(s);
+	return (SUCCESS);
 }
+
+int main(int ac, char **av)
+{
+	t_stacks stacks;
+
+	if (0 == --ac || NULL == *(++av))
+		exit_message(ERR, "Error\n");
+	stacks.visual = ft_strequ("-v", av[0]);
+	if (stacks.visual == 1)
+	{
+		--ac;
+		++av;
+	}
+	init_stacks(&stacks, ac, av);
+	init_display(&stacks);
+	refresh_display(stacks.display, &stacks);
+	mlx_loop_hook(stacks.display->mlx_ptr, &main_loop, &stacks);
+	mlx_loop(stacks.display->mlx_ptr);
+	return (SUCCESS);
+}
+
+// bien penser à enlever le comment du Makefile

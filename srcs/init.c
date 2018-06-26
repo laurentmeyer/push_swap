@@ -11,41 +11,83 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "ft_printf.h"
 #include "push_swap.h"
+#include <stdlib.h>
+#include <limits.h>
 
-static t_stack	*init_stack(size_t max)
+static void	init_min_max(t_stacks *stacks)
 {
-	t_stack	*res;
+	int	i;
+	int	current;
+	int	min;
+	int	max;
 
-	if ((res = (t_stack *)malloc(sizeof(t_stack))))
+	min = INT_MAX;
+	max = INT_MIN;
+	i = stacks->a.count - 1;
+	while (i >= 0)
 	{
-		res->count = 0;
-		if (!(res->data = (int *)ft_memalloc((max + 1) * sizeof(int))))
-		{
-			free(res);
-			return (NULL);
-		}
+		current = stacks->a.elements[i];
+		if (current > max)
+			max = current;
+		if (current < min)
+			min = current;
+		--i;
 	}
-	return (res);
+	stacks->min = min;
+	stacks->max = max;
 }
 
-t_data			*init_data(size_t max)
+static void allocate_stacks(t_stacks *stacks, int ac, char **av)
 {
-	t_data	*res;
+	int 	i;
+	int		count;
 
-	if ((res = (t_data *)malloc(sizeof(t_data))))
+	i = 0;
+	count = 0;
+	while (i < ac)
+		count += ft_countwords(av[i++], ' ');
+	stacks->a.count = 0;
+	stacks->b.count = 0;
+	if (NULL == (stacks->a.elements = (int *)malloc(ac * sizeof(int)))
+		|| NULL == (stacks->b.elements = (int *)malloc(ac * sizeof(int))))
+		exit_message(ERR, "Allocation of stacks failed\n");
+}
+
+void fill_stacks(t_stacks *stacks, int ac, char **av)
+{
+  int   i;
+  char  *current;
+ 
+  i = 0;
+  while (i < ac)
+  {
+    current = av[ac - 1 - i];
+    if (!ft_valid_int_str(current))
+      exit_message(ERR, "Error\n");
+	push(&(stacks->a), ft_atoi(current));
+	++i;
+  }
+  init_min_max(stacks);
+}
+
+
+void init_stacks(t_stacks *stacks, int ac, char **av)
+{
+	int		count;
+	char	**curargs;
+
+	if (0 == ac)
+		exit_message(ERR, "Error\n");
+	allocate_stacks(stacks, ac, av);
+	count = ft_countwords(av[0], ' ');
+	if (1 != count)
 	{
-		if (!(res->a = init_stack(max)))
-		{
-			free(res);
-			return (NULL);
-		}
-		if (!(res->b = init_stack(max)))
-		{
-			free(res->a);
-			free(res);
-			return (NULL);
-		}
+		curargs = ft_strsplit(av[0], ' ');
+		fill_stacks(stacks, count, curargs);
+		ft_free_strsplit(&curargs);
 	}
-	return (res);
+	else
+		fill_stacks(stacks, ac, av);
 }

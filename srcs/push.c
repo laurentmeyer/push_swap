@@ -12,9 +12,8 @@
 
 #include "push_swap.h"
 
-int		push(t_stack *stack, int i)
+void	push(t_stack *stack, int i)
 {
-	(stack->data)[(stack->count)++] = i;
-	return (1);
-//	return (stack->count);
+	(stack->elements)[stack->count] = i;
+	stack->count += 1;
 }

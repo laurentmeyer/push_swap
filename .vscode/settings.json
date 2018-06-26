@@ -5,6 +5,11 @@
 		"${workspaceFolder}/libft/ft_printf/includes"
 	],
 	"files.associations": {
-		"libft.h": "c"
-	}
+		"libft.h": "c",
+		"types.h": "c",
+		"unistd.h": "c",
+		"display.h": "c",
+		"push_swap.h": "c"
+	},
+	"C_Cpp.intelliSenseEngineFallback": "Disabled"
 }

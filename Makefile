@@ -1,5 +1,5 @@
 CC = 		gcc
-CFLAGS =	-Wall -Wextra -Werror
+CFLAGS =	-g -Wall -Wextra -Werror
 CHECKER =	checker
 PUSHSWAP =	push_swap
 BUILDDIR =	builds
@@ -7,17 +7,24 @@ SOURCEDIR =	srcs
 HEADERDIR = includes
 
 SRCFILES =	init.c			\
+			error.c			\
 			push.c			\
 			pop.c			\
 			do_op.c			\
+			display.c		\
 			print.c
 
 CCHEADERS = -I./$(HEADERDIR)				\
 			-I$(LIBFT)/libft/includes		\
-			-I$(LIBFT)/ft_printf/includes
+			-I$(LIBFT)/ft_printf/includes	\
+			-I$(MINILIB)
 
 LIBFT = 	./libft
-CCLIBS = 	-L$(LIBFT) -lft
+MINILIB = 	./mlx/
+CCLIBS =	-L$(LIBFT) -lft			\
+			-L$(MINILIB) -lmlx
+
+CCFRAMEWORKS = -framework AppKit -framework OpenGL
 
 SOURCES = 		$(SRCFILES:%.c=$(SOURCEDIR)/%.c)
 CHECKERMAIN =	$(SOURCEDIR)/$(CHECKER).c
@@ -35,11 +42,13 @@ all : $(CHECKER) $(PUSHSWAP)
 
 $(CHECKER) : $(CHECKEROBJS)
 	$(MAKE) -C $(LIBFT)
-	$(CC) $(CCHEADERS) $(CCLIBS) $(CHECKEROBJS) -o $(CHECKER)
+	$(MAKE) -C $(MINILIB)
+	$(CC) $(CCHEADERS) $(CCLIBS) $(CHECKEROBJS) $(CCFRAMEWORKS) -o $(CHECKER)
 
 $(PUSHSWAP) : $(PUSHSWAPOBJS)
 	$(MAKE) -C $(LIBFT)
-	$(CC) $(CCHEADERS) $(CCLIBS) $(PUSHSWAPOBJS) -o $(PUSHSWAP)
+	$(MAKE) -C $(MINILIB)
+	$(CC) $(CCHEADERS) $(CCLIBS) $(PUSHSWAPOBJS) $(CCFRAMEWORKS) -o $(PUSHSWAP)
 
 $(BUILDDIR)/%.o : $(SOURCEDIR)/%.c
 	@mkdir -p $(@D)
@@ -47,6 +56,8 @@ $(BUILDDIR)/%.o : $(SOURCEDIR)/%.c
 
 clean:
 	$(MAKE) -C $(LIBFT) clean
+	$(MAKE) -C $(MINILIB) clean
+	rm -rf $(BUILDDIR)
 	rm -f $(OBJECTS)
 
 fclean: clean

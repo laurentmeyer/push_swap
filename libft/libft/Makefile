@@ -42,6 +42,7 @@ OBJECTS =	ft_memset.o			\
 			ft_strjoin.o		\
 			ft_strtrim.o		\
 			ft_strsplit.o		\
+			ft_free_strsplit.o	\
 			ft_itoa.o			\
 			ft_putchar.o		\
 			ft_putstr.o			\
