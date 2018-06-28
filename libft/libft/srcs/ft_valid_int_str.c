@@ -39,15 +39,15 @@ static long int		ft_atoi_long(const char *str)
 	return (-sign * acc);
 }
 
-int					ft_valid_int_str(char *s)
+int					ft_valid_int_str(char *s, int strict)
 {
 	int			i;
 	int			j;
 	long int	l;
 
-	if (!s)
-		return (0);
 	i = 0;
+	if (strict && !ft_isdigit(s[i]))
+		return (0);
 	while (s[i] && !ft_isdigit(s[i]))
 		++i;
 	if (s[i] == '\0')
@@ -55,6 +55,8 @@ int					ft_valid_int_str(char *s)
 	j = 0;
 	while (ft_isdigit(s[i + j]))
 		++j;
+	if (strict && s[i + j] != '\0')
+		return (0);
 	if (j > 10)
 		return (0);
 	if ((l = ft_atoi_long(s)) > INT_MAX || l < INT_MIN)

@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <limits.h>
 
+#define STRICT 0
+
 static void	init_min_max(t_stacks *stacks)
 {
 	int	i;
@@ -87,6 +89,7 @@ void init_stacks(t_stacks *stacks, int ac, char **av)
 		curargs = ft_strsplit(av[0], ' ');
 		fill_stacks(stacks, count, curargs);
 		ft_free_strsplit(&curargs);
+		if (!ft_valid_int_str(current, STRICT))
 	}
 	else
 		fill_stacks(stacks, ac, av);

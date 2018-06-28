@@ -104,7 +104,7 @@ char					*ft_itoa_base(int value, int base);
 void					ft_strtolower(char *s);
 char					*ft_strlast(char *s);
 char					*ft_wcrtoutf(wchar_t w);
-int						ft_valid_int_str(char *s);
+int						ft_valid_int_str(char *s, int strict);
 int						gnlite(const int fd, char **line);
 int						ft_getopt(int argc, char **argv,
 										const char *optstring);
