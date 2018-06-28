@@ -114,6 +114,7 @@ void					ft_lstsort(t_list **alst, t_listcmp *f);
 void					ft_lstappend(t_list **alst, t_list *to_append);
 void					ft_lstrev(t_list **alst);
 char					*ft_basename(char *path);
+char 					**ft_argsplit(int *aac, char **av);
 int						ft_intlen(int n);
 
 #endif
