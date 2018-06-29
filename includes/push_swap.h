@@ -18,8 +18,8 @@
 # define PUSH_SWAP
 # define ERR -1
 # define SUCCESS 0
-# define WIN_H 400
-# define WIN_W 400
+# define MIN_WIN_H 400
+# define MIN_WIN_W 400
 # define WIN_NAME "checker"
 
 typedef struct	s_display
@@ -35,6 +35,8 @@ typedef struct	s_display
 	int			chars_per_pixel;
 	int			pixels_per_line;
 	int			pixels_per_col;
+	int			win_h;
+	int			win_w;
 }				t_display;
 
 typedef struct	s_stack

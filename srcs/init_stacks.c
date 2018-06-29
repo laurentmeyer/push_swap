@@ -57,40 +57,25 @@ static void allocate_stacks(t_stacks *stacks, int ac, char **av)
 		exit_message(ERR, "Allocation of stacks failed\n");
 }
 
-void fill_stacks(t_stacks *stacks, int ac, char **av)
-{
-  int   i;
-  char  *current;
- 
-  i = 0;
-  while (i < ac)
-  {
-    current = av[ac - 1 - i];
-    if (!ft_valid_int_str(current))
-      exit_message(ERR, "Error\n");
-	push(&(stacks->a), ft_atoi(current));
-	++i;
-  }
-  init_min_max(stacks);
-}
-
 
 void init_stacks(t_stacks *stacks, int ac, char **av)
 {
 	int		count;
-	char	**curargs;
+	int		i;
+	char	*current;
 
 	if (0 == ac)
 		exit_message(ERR, "Error\n");
 	allocate_stacks(stacks, ac, av);
 	count = ft_countwords(av[0], ' ');
-	if (1 != count)
+	i = 0;
+	while (i < ac)
 	{
-		curargs = ft_strsplit(av[0], ' ');
-		fill_stacks(stacks, count, curargs);
-		ft_free_strsplit(&curargs);
+		current = av[ac - 1 - i];
 		if (!ft_valid_int_str(current, STRICT))
+			exit_message(ERR, "Error\n");
+		push(&(stacks->a), ft_atoi(current));
+		++i;
 	}
-	else
-		fill_stacks(stacks, ac, av);
+	init_min_max(stacks);
 }

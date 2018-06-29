@@ -6,13 +6,14 @@ BUILDDIR =	builds
 SOURCEDIR =	srcs
 HEADERDIR = includes
 
-SRCFILES =	init.c			\
+SRCFILES =	init_stacks.c	\
+			init_display.c	\
 			error.c			\
 			push.c			\
 			pop.c			\
 			do_op.c			\
-			display.c		\
-			print.c
+			verifs.c		\
+			display.c
 
 CCHEADERS = -I./$(HEADERDIR)				\
 			-I$(LIBFT)/libft/includes		\
