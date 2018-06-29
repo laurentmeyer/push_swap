@@ -68,6 +68,7 @@ void			push(t_stack *stack, int i);
 int				pop(t_stack *stack);
 void			init_display(t_stacks *stacks);
 void    		refresh_display(t_display *d, t_stacks *stacks);
+int  			is_sorted(t_stack stack);
 t_list			*insertion(t_stack a, t_stack b);
 
 
