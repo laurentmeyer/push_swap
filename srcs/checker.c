@@ -19,21 +19,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	is_sorted(t_stacks stacks)
-{
-	int	i;
-
-	if (stacks.b.count != 0)
-		return (0);
-	if (stacks.a.count == 1)
-		return (1);
-	i = -1;
-	while (++i < stacks.a.count - 1)
-		if ((stacks.a.elements)[i] <= (stacks.a.elements)[i + 1])
-			return (0);
-	return (1);
-}
-
 static int main_loop(t_stacks *stacks)
 {
 	int			gnl;
@@ -57,6 +42,8 @@ int main(int ac, char **av)
 {
 	t_stacks stacks;
 
+	if (NULL == (av = ft_argsplit(&ac, av)))
+		exit_message(ERR, "Error\n");
 	if (0 == --ac || NULL == *(++av))
 		exit_message(ERR, "Error\n");
 	stacks.visual = ft_strequ("-v", av[0]);

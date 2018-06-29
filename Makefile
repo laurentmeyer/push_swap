@@ -6,13 +6,14 @@ BUILDDIR =	builds
 SOURCEDIR =	srcs
 HEADERDIR = includes
 
-SRCFILES =	init_stacks.c	\
-			init_display.c	\
-			error.c			\
-			push.c			\
-			pop.c			\
-			do_op.c			\
-			verifs.c		\
+SRCFILES =	init_stacks.c		\
+			init_display.c		\
+			error.c				\
+			push.c				\
+			pop.c				\
+			do_op.c				\
+			verifs.c			\
+			algo_insertion.c	\
 			display.c
 
 CCHEADERS = -I./$(HEADERDIR)				\

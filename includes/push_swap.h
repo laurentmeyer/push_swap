@@ -13,14 +13,17 @@
 #ifndef PUSH_SWAP
 
 # include "mlx.h"
+# include "libft.h"
+# include "ft_printf.h"
 # include <unistd.h>
 # include <stdlib.h>
 # define PUSH_SWAP
 # define ERR -1
 # define SUCCESS 0
 # define MIN_WIN_H 400
-# define MIN_WIN_W 400
+# define MIN_WIN_W 402
 # define WIN_NAME "checker"
+# define ALGO_COUNT 1
 
 typedef struct	s_display
 {
@@ -50,19 +53,22 @@ typedef struct	s_stacks
 	t_stack		a;
 	t_stack		b;
 	t_display	*display;
+	t_list		*instructions[ALGO_COUNT];
 	int			min;
 	int			max;
 	int			visual;
 }				t_stacks;
+
+typedef t_list *(*t_algorithm)(t_stack, t_stack);
 
 void			init_stacks(t_stacks *stacks, int ac, char **av);
 int				exit_message(int exit_code, char *message);
 int				do_op(t_stacks *data, char *s);
 void			push(t_stack *stack, int i);
 int				pop(t_stack *stack);
-void			print_stacks(t_stacks stacks, int visual_on);
 void			init_display(t_stacks *stacks);
 void    		refresh_display(t_display *d, t_stacks *stacks);
+t_list			*insertion(t_stack a, t_stack b);
 
 
 #endif
