@@ -1,6 +1,10 @@
 #include "push_swap.h"
 #include "libft.h"
+#include <time.h>
 #include <stdlib.h>
+
+#define MILLISECONDS 100L
+
 
 static void pixel_put(t_display *d, int x, int y, unsigned int color)
 {
@@ -58,10 +62,11 @@ static void draw_cols(t_display *d, t_stacks *stacks)
 
 void    refresh_display(t_display *d, t_stacks *stacks)
 {
-	const unsigned int	top = mlx_get_color_value(d->mlx_ptr, 0x2e3d5a);
-	const unsigned int	bottom = mlx_get_color_value(d->mlx_ptr, 0x272a31);
-	const size_t		len = d->pixels_per_line * d->win_h;
-    size_t              i;
+	const unsigned int	    top = mlx_get_color_value(d->mlx_ptr, 0x2e3d5a);
+	const unsigned int	    bottom = mlx_get_color_value(d->mlx_ptr, 0x272a31);
+	const size_t		    len = d->pixels_per_line * d->win_h;
+    const struct timespec   req = {(time_t)0, 1000000 * MILLISECONDS};
+    size_t                  i;
 
     i = 0;
     while (i < len / 2)
@@ -70,4 +75,5 @@ void    refresh_display(t_display *d, t_stacks *stacks)
         ((unsigned int *)d->data_addr)[i++] = bottom;
     draw_cols(d, stacks);
     mlx_put_image_to_window(d->mlx_ptr, d->window, d->img_ptr, 0, 0);
+    nanosleep(&req, NULL);
 }

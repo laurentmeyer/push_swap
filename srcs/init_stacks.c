@@ -18,7 +18,7 @@
 
 #define STRICT 0
 
-static void	init_min_max(t_stacks *stacks)
+static void	init_constants(t_stacks *stacks)
 {
 	int	i;
 	int	current;
@@ -39,6 +39,7 @@ static void	init_min_max(t_stacks *stacks)
 	}
 	stacks->min = min;
 	stacks->max = max;
+	stacks->count = stacks->a.count;
 }
 
 static void allocate_stacks(t_stacks *stacks, int count)
@@ -79,5 +80,5 @@ void init_stacks(t_stacks *stacks, int ac, char **av)
 		count += ft_countwords(av[i++], ' ');
 	allocate_stacks(stacks, count);
 	fill_stacks(stacks, ac, av);
-	init_min_max(stacks);
+	init_constants(stacks);
 }
