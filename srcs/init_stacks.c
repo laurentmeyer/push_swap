@@ -41,33 +41,20 @@ static void	init_min_max(t_stacks *stacks)
 	stacks->max = max;
 }
 
-static void allocate_stacks(t_stacks *stacks, int ac, char **av)
+static void allocate_stacks(t_stacks *stacks, int count)
 {
-	int 	i;
-	int		count;
-
-	i = 0;
-	count = 0;
-	while (i < ac)
-		count += ft_countwords(av[i++], ' ');
 	stacks->a.count = 0;
 	stacks->b.count = 0;
-	if (NULL == (stacks->a.elements = (int *)malloc(ac * sizeof(int)))
-		|| NULL == (stacks->b.elements = (int *)malloc(ac * sizeof(int))))
+	if (NULL == (stacks->a.elements = (int *)malloc(count * sizeof(int)))
+		|| NULL == (stacks->b.elements = (int *)malloc(count * sizeof(int))))
 		exit_message(ERR, "Allocation of stacks failed\n");
 }
 
-
-void init_stacks(t_stacks *stacks, int ac, char **av)
+static void	fill_stacks(t_stacks *stacks, int ac, char **av)
 {
-	int		count;
 	int		i;
 	char	*current;
 
-	if (0 == ac)
-		exit_message(ERR, "Error\n");
-	allocate_stacks(stacks, ac, av);
-	count = ft_countwords(av[0], ' ');
 	i = 0;
 	while (i < ac)
 	{
@@ -77,5 +64,20 @@ void init_stacks(t_stacks *stacks, int ac, char **av)
 		push(&(stacks->a), ft_atoi(current));
 		++i;
 	}
+}
+
+void init_stacks(t_stacks *stacks, int ac, char **av)
+{
+	int		count;
+	int		i;
+
+	if (0 == ac)
+		exit_message(ERR, "Error\n");
+	i = 0;
+	count = 0;
+	while (i < ac)
+		count += ft_countwords(av[i++], ' ');
+	allocate_stacks(stacks, count);
+	fill_stacks(stacks, ac, av);
 	init_min_max(stacks);
 }

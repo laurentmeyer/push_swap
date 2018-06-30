@@ -34,7 +34,7 @@ static int main_loop(t_stacks *stacks)
 		while (42);//
 		exit(0);
 	}
-	else if (ERR == gnl || ERR == do_op(stacks, s))
+	else if (ERR == gnl || ERR == do_op(s, &(stacks->a), &(stacks->b)))
 		exit_message(ERR, "Error\n");
 	refresh_display(stacks->display, stacks);
 	free(s);

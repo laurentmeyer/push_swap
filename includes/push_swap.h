@@ -63,7 +63,7 @@ typedef t_list *(*t_algorithm)(t_stack, t_stack);
 
 void			init_stacks(t_stacks *stacks, int ac, char **av);
 int				exit_message(int exit_code, char *message);
-int				do_op(t_stacks *data, char *s);
+int				do_op(char *s, t_stack *a, t_stack *b);
 void			push(t_stack *stack, int i);
 int				pop(t_stack *stack);
 void			init_display(t_stacks *stacks);
