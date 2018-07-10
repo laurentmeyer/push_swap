@@ -40,6 +40,7 @@ static void	init_constants(t_stacks *stacks)
 	stacks->min = min;
 	stacks->max = max;
 	stacks->count = stacks->a.count;
+	stacks->instructions = NULL;
 }
 
 static void allocate_stacks(t_stacks *stacks, int count)
@@ -81,4 +82,16 @@ void init_stacks(t_stacks *stacks, int ac, char **av)
 	allocate_stacks(stacks, count);
 	fill_stacks(stacks, ac, av);
 	init_constants(stacks);
+}
+
+void	copy_stacks(t_stacks *dst, t_stacks *src)
+{
+	int	i;
+
+	allocate_stacks(dst, src->count);
+	i = 0;
+	while (i < src->a.count)
+		push(&(dst->a), src->a.elements[i++]);
+	dst->display = src->display;
+	init_constants(dst);
 }

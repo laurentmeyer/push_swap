@@ -3,7 +3,7 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define MILLISECONDS 100L
+#define NANOSECONDS 500000000l
 
 
 static void pixel_put(t_display *d, int x, int y, unsigned int color)
@@ -34,13 +34,15 @@ static void draw_col(t_display *d, int stack, int col, int height)
     }
 }
 
-static void draw_cols(t_display *d, t_stacks *stacks)
+static void draw_cols(t_stacks *stacks)
 {
     int                 i;
     int                 count;
     int                 height;
+    t_display           *d;
 
     i = 0;
+    d = stacks->display;
     count = stacks->a.count;
     while (i < count)
     {
@@ -60,20 +62,22 @@ static void draw_cols(t_display *d, t_stacks *stacks)
     }
 }
 
-void    refresh_display(t_display *d, t_stacks *stacks)
+void    refresh_display(t_stacks *stacks)
 {
-	const unsigned int	    top = mlx_get_color_value(d->mlx_ptr, 0x2e3d5a);
-	const unsigned int	    bottom = mlx_get_color_value(d->mlx_ptr, 0x272a31);
-	const size_t		    len = d->pixels_per_line * d->win_h;
-    const struct timespec   req = {(time_t)0, 1000000 * MILLISECONDS};
+	const unsigned int	    top = 0x2e3d5a;
+	const unsigned int	    bottom = 0x272a31;
+	size_t		            len;
+    t_display               *d;
     size_t                  i;
 
     i = 0;
+    d = stacks->display;
+    len = d->pixels_per_line * d->win_h;
     while (i < len / 2)
         ((unsigned int *)d->data_addr)[i++] = top;
     while (i < len)
         ((unsigned int *)d->data_addr)[i++] = bottom;
-    draw_cols(d, stacks);
+    draw_cols(stacks);
+    nanosleep(&((struct timespec){(time_t)0, NANOSECONDS}), NULL);
     mlx_put_image_to_window(d->mlx_ptr, d->window, d->img_ptr, 0, 0);
-    nanosleep(&req, NULL);
 }

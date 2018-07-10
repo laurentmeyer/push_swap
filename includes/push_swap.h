@@ -50,24 +50,26 @@ typedef struct	s_stacks
 	t_stack		a;
 	t_stack		b;
 	t_display	*display;
-	t_list		*instructions[ALGO_COUNT];
+	t_list		*instructions;
 	int			count;
 	int			min;
 	int			max;
 	int			visual;
 }				t_stacks;
 
-typedef t_list *(*t_algorithm)(t_stack, t_stack);
-
 void			init_stacks(t_stacks *stacks, int ac, char **av);
+void			copy_stacks(t_stacks *dst, t_stacks *src);
 int				exit_message(int exit_code, char *message);
-int				do_op(char *s, t_stack *a, t_stack *b);
+int				do_op(t_stacks *stacks, char *s);
 void			push(t_stack *stack, int i);
 int				pop(t_stack *stack);
 void			init_display(t_stacks *stacks);
-void    		refresh_display(t_display *d, t_stacks *stacks);
+void    		refresh_display(t_stacks *stacks);
 int  			is_sorted(t_stack stack);
-t_list			*insertion(t_stack a, t_stack b);
+int				max_index(t_stack stack);
+int				min_index(t_stack stack);
+void    		rotate_min_a_on_top(t_stacks *stacks);
+int				insertion(t_stacks *stacks);
 
 
 #endif

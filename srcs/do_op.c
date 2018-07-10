@@ -64,30 +64,35 @@ int		op_reverse_rotate(t_stack *stack)
 	return (1);
 }
 
-int		do_op(char *s, t_stack *a, t_stack *b)
+int do_op(t_stacks *stacks, char *s)
 {
+	char	instruction[4];
+
+	refresh_display(stacks);//
+	ft_strcpy(instruction, s);
+	ft_lstappend(&(stacks->instructions), ft_lstnew(&instruction, sizeof(instruction)));
 	if (ft_strequ(s, "sa"))
-		return (op_swap(a));
+		return (op_swap(&(stacks->a)));
 	else if (ft_strequ(s, "sb"))
-		return (op_swap(b));
+		return (op_swap(&(stacks->b)));
 	else if (ft_strequ(s, "ss"))
-		return (op_swap(a) && op_swap(b));
+		return (op_swap(&(stacks->a)) && op_swap(&(stacks->b)));
 	else if (ft_strequ(s, "pa"))
-		return (op_push(b, a));
+		return (op_push(&(stacks->b), &(stacks->a)));
 	else if (ft_strequ(s, "pb"))
-		return (op_push(a, b));
+		return (op_push(&(stacks->a), &(stacks->b)));
 	else if (ft_strequ(s, "ra"))
-		return (op_rotate(a));
+		return (op_rotate(&(stacks->a)));
 	else if (ft_strequ(s, "rb"))
-		return (op_rotate(b));
+		return (op_rotate(&(stacks->b)));
 	else if (ft_strequ(s, "rr"))
-		return (op_rotate(a) && op_rotate(b));
+		return (op_rotate(&(stacks->a))) && op_rotate(&(stacks->b));
 	else if (ft_strequ(s, "rra"))
-		return (op_reverse_rotate(a));
+		return (op_reverse_rotate(&(stacks->a)));
 	else if (ft_strequ(s, "rrb"))
-		return (op_reverse_rotate(b));
+		return (op_reverse_rotate(&(stacks->b)));
 	else if (ft_strequ(s, "rrr"))
-		return (op_reverse_rotate(a) && op_reverse_rotate(b));
+		return (op_reverse_rotate(&(stacks->a)) && op_reverse_rotate(&(stacks->b)));
 	else
 		return (ERR);
 }

@@ -34,9 +34,9 @@ static int main_loop(t_stacks *stacks)
 		while (42);//
 		exit(0);
 	}
-	else if (ERR == gnl || ERR == do_op(s, &(stacks->a), &(stacks->b)))
+	else if (ERR == gnl || ERR == do_op(stacks, s))
 		exit_message(ERR, "Error\n");
-	refresh_display(stacks->display, stacks);
+	refresh_display(stacks);
 	free(s);
 	return (SUCCESS);
 }
@@ -57,7 +57,7 @@ int main(int ac, char **av)
 	}
 	init_stacks(&stacks, ac, av);
 	init_display(&stacks);
-	refresh_display(stacks.display, &stacks);
+	refresh_display(&stacks);
 	mlx_loop_hook(stacks.display->mlx_ptr, &main_loop, &stacks);
 	mlx_loop(stacks.display->mlx_ptr);
 	return (SUCCESS);

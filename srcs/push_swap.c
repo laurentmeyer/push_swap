@@ -1,7 +1,7 @@
 #include "push_swap.h"
 #include <fcntl.h>
 
-static void		print_instructions(t_list *list)
+static void		print_instructions_exit(t_list *list)
 {
 	while (list)
 	{
@@ -9,6 +9,7 @@ static void		print_instructions(t_list *list)
 		ft_putchar('\n');
 		list = list->next;
 	}
+	exit(0);
 }
 
 static t_list	*shortest_instructions(t_stacks *stacks)
@@ -23,10 +24,10 @@ static t_list	*shortest_instructions(t_stacks *stacks)
 	shortest = NULL;
 	while (i < ALGO_COUNT)
 	{
-		cur = ft_lstlen(stacks->instructions[i]);
+		cur = ft_lstlen(stacks[i].instructions);
 		if (cur > min)
 		{
-			shortest = stacks->instructions[i];
+			shortest = stacks[i].instructions;
 			min = cur;
 		}
 		++i;
@@ -34,49 +35,36 @@ static t_list	*shortest_instructions(t_stacks *stacks)
 	return (shortest);
 }
 
-static void	init_algos(t_algorithm algos[])
+static int main_loop(t_stacks *copies)
 {
-	algos[0] = &insertion;
-}
+	static int	current = 0;
 
-static void	run_algorithms(t_stacks *stacks)
-{
-	int				i;
-	int				j;
-	t_stack			cpy_a;
-	t_stack			cpy_b;
-	t_algorithm		algos[ALGO_COUNT];
-
-	init_algos(algos);
-	if (!(cpy_a.elements = (int *)malloc(stacks->a.count * sizeof(int)))
-		|| !(cpy_b.elements = (int *)malloc(stacks->a.count * sizeof(int))))
-		exit_message(ERR, "Could not allocate memory\n");
-	i = 0;
-	while (i < ALGO_COUNT)
-	{
-		cpy_a.count = 0;
-		cpy_b.count = 0;
-		j = 0;
-		while (j < stacks->a.count)
-			push(&cpy_a, stacks->a.elements[j++]);
-		stacks->instructions[i] = (algos[i])(cpy_a, cpy_b);
-		++i;
-	}
-	free(cpy_a.elements);
-	free(cpy_b.elements);
+	if (ALGO_COUNT == current)
+		print_instructions_exit(shortest_instructions(copies));
+	else if (0 == current && 1 == insertion(&(copies[current])))
+		current++;
+	return (SUCCESS);
 }
 
 int main(int ac, char **av)
 {
-	t_stacks	stacks;
+	t_stacks	original;
+	t_stacks	copies[ALGO_COUNT];
+	int			i;
 
 	if (NULL == (av = ft_argsplit(&ac, av)))
 		exit_message(ERR, "Error\n");
 	if (0 == --ac || NULL == *(++av))
 		exit_message(ERR, "Error\n");
-	init_stacks(&stacks, ac, av);
-	run_algorithms(&stacks);
-	print_instructions(shortest_instructions(&stacks));
+	init_stacks(&original, ac, av);
+	init_display(&original);
+	i = 0;
+	while (i < ALGO_COUNT)
+		copy_stacks(&(copies[i++]), &original);
+
+	refresh_display(&(copies[0]));
+	mlx_loop_hook(original.display->mlx_ptr, &main_loop, copies);
+	mlx_loop(original.display->mlx_ptr);
 	return (SUCCESS);
 }
 
