@@ -16,6 +16,5 @@ void rotate_min_a_on_top(t_stacks *stacks)
 		i = stacks->a.count - 1 - i;
 		operation = "ra";
 	}
-	while (i-- > 0)
-		do_op(stacks, operation);
+	do_op(stacks, operation);
 }

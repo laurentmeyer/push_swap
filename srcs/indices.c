@@ -1,7 +1,7 @@
 #include "push_swap.h"
 #include <limits.h>
 
-int		max_index(t_stack stack)
+int		max_index(t_int_array array)
 {
 	int	index;
 	int	i;
@@ -10,11 +10,11 @@ int		max_index(t_stack stack)
 	i = 0;
 	index = 0;
 	max = INT_MIN;
-	while (i < stack.count)
+	while (i < array.count)
 	{
-		if (stack.elements[i] > max)
+		if (array.data[i] > max)
 		{
-			max = stack.elements[i];
+			max = array.data[i];
 			index = i;
 		}
 		i++;
@@ -22,7 +22,7 @@ int		max_index(t_stack stack)
 	return (index);
 }
 
-int		min_index(t_stack stack)
+int		min_index(t_int_array array)
 {
 	int	index;
 	int	i;
@@ -31,11 +31,11 @@ int		min_index(t_stack stack)
 	i = 0;
 	index = 0;
 	min = INT_MAX;
-	while (i < stack.count)
+	while (i < array.count)
 	{
-		if (stack.elements[i] < min)
+		if (array.data[i] < min)
 		{
-			min = stack.elements[i];
+			min = array.data[i];
 			index = i;
 		}
 		i++;

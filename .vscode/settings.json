@@ -13,7 +13,9 @@
 		"stdlib.h": "c",
 		"string.h": "c",
 		"ft_printf.h": "c",
-		"mlx.h": "c"
+		"mlx.h": "c",
+		"__tuple": "c",
+		"int_array.h": "c"
 	},
 	"C_Cpp.intelliSenseEngineFallback": "Disabled"
 }

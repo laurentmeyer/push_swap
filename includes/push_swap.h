@@ -20,7 +20,7 @@
 # define PUSH_SWAP
 # define ERR -1
 # define SUCCESS 0
-# define ALGO_COUNT 1
+# define ALGO_COUNT 2
 
 typedef struct	s_display
 {
@@ -39,16 +39,10 @@ typedef struct	s_display
 	int			win_w;
 }				t_display;
 
-typedef struct	s_stack
-{
-	int			count;
-	int			*elements;
-}				t_stack;
-
 typedef struct	s_stacks
 {
-	t_stack		a;
-	t_stack		b;
+	t_int_array	a;
+	t_int_array	b;
 	t_display	*display;
 	t_list		*instructions;
 	int			count;
@@ -61,15 +55,17 @@ void			init_stacks(t_stacks *stacks, int ac, char **av);
 void			copy_stacks(t_stacks *dst, t_stacks *src);
 int				exit_message(int exit_code, char *message);
 int				do_op(t_stacks *stacks, char *s);
-void			push(t_stack *stack, int i);
-int				pop(t_stack *stack);
 void			init_display(t_stacks *stacks);
 void    		refresh_display(t_stacks *stacks);
-int  			is_sorted(t_stack stack);
-int				max_index(t_stack stack);
-int				min_index(t_stack stack);
+int  			is_sorted(t_int_array array);
+int				max_index(t_int_array array);
+int				min_index(t_int_array array);
 void    		rotate_min_a_on_top(t_stacks *stacks);
-int				insertion(t_stacks *stacks);
+int				simple_selection(t_stacks *stacks);
+int				algo_quicksort(t_stacks *stacks);
+int				advanced_selection(t_stacks *stacks);
+t_int_array		*lis(t_int_array *array);
+int				algo_lis(t_stacks *stacks);
 
 
 #endif

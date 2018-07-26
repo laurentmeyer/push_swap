@@ -30,7 +30,7 @@ static void	init_constants(t_stacks *stacks)
 	i = stacks->a.count - 1;
 	while (i >= 0)
 	{
-		current = stacks->a.elements[i];
+		current = stacks->a.data[i];
 		if (current > max)
 			max = current;
 		if (current < min)
@@ -47,8 +47,8 @@ static void allocate_stacks(t_stacks *stacks, int count)
 {
 	stacks->a.count = 0;
 	stacks->b.count = 0;
-	if (NULL == (stacks->a.elements = (int *)malloc(count * sizeof(int)))
-		|| NULL == (stacks->b.elements = (int *)malloc(count * sizeof(int))))
+	if (NULL == (stacks->a.data = (int *)malloc(count * sizeof(int)))
+		|| NULL == (stacks->b.data = (int *)malloc(count * sizeof(int))))
 		exit_message(ERR, "Allocation of stacks failed\n");
 }
 
@@ -63,7 +63,7 @@ static void	fill_stacks(t_stacks *stacks, int ac, char **av)
 		current = av[ac - 1 - i];
 		if (!ft_valid_int_str(current, STRICT))
 			exit_message(ERR, "Error\n");
-		push(&(stacks->a), ft_atoi(current));
+		int_push(&(stacks->a), ft_atoi(current));
 		++i;
 	}
 }
@@ -91,7 +91,7 @@ void	copy_stacks(t_stacks *dst, t_stacks *src)
 	allocate_stacks(dst, src->count);
 	i = 0;
 	while (i < src->a.count)
-		push(&(dst->a), src->a.elements[i++]);
+		int_push(&(dst->a), src->a.data[i++]);
 	dst->display = src->display;
 	init_constants(dst);
 }

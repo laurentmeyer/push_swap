@@ -80,7 +80,11 @@ OBJECTS =	ft_memset.o			\
 			ft_basename.o		\
 			ft_argsplit.o		\
 			btree_create_node.o	\
-			btree_insert_node.o
+			btree_insert_node.o	\
+			sort_int_array.o	\
+			ft_swap_int.o		\
+			int_array.o
+
 
 NAME = libft_original.a
 

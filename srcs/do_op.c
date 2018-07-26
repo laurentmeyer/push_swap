@@ -16,50 +16,50 @@
 
 #include "ft_printf.h"
 
-int		op_swap(t_stack *stack)
+int		op_swap(t_int_array *array)
 {
 	int	a;
 	int	b;
 
-	if (stack->count > 1)
+	if (array->count > 1)
 	{
-		a = pop(stack);
-		b = pop(stack);
-		push(stack, a);
-		push(stack, b);
+		a = int_pop(array);
+		b = int_pop(array);
+		int_push(array, a);
+		int_push(array, b);
 	}
 	return (1);
 }
 
-int		op_push(t_stack *src, t_stack *dst)
+int		op_push(t_int_array *src, t_int_array *dst)
 {
 	if (src->count > 0)
-		push(dst, pop(src));
+		int_push(dst, int_pop(src));
 	return (1);
 }
 
-int		op_rotate(t_stack *stack)
+int		op_rotate(t_int_array *array)
 {
 	int		i;
 
-	if (stack->count > 0)
+	if (array->count > 0)
 	{
-		i = (stack->elements)[stack->count - 1];
-		ft_memmove(stack->elements + 1, stack->elements, (stack->count - 1) * sizeof(int));
-		(stack->elements)[0] = i;
+		i = (array->data)[array->count - 1];
+		ft_memmove(array->data + 1, array->data, (array->count - 1) * sizeof(int));
+		(array->data)[0] = i;
 	}
 	return (1);
 }
 
-int		op_reverse_rotate(t_stack *stack)
+int		op_reverse_rotate(t_int_array *array)
 {
 	int		i;
 
-	if (stack->count > 0)
+	if (array->count > 0)
 	{
-		i = (stack->elements)[0];
-		ft_memmove(stack->elements, stack->elements + 1, (stack->count - 1) * sizeof(int));
-		(stack->elements)[stack->count - 1] = i;
+		i = (array->data)[0];
+		ft_memmove(array->data, array->data + 1, (array->count - 1) * sizeof(int));
+		(array->data)[array->count - 1] = i;
 	}
 	return (1);
 }

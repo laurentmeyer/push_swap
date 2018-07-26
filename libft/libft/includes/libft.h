@@ -13,6 +13,7 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include "int_array.h"
 # include <string.h>
 # include <wchar.h>
 # define MININT -2147483648
@@ -116,5 +117,7 @@ void					ft_lstrev(t_list **alst);
 char					*ft_basename(char *path);
 char 					**ft_argsplit(int *aac, char **av);
 int						ft_intlen(int n);
+void					sort_int_array(t_int_array *array);
+void					ft_swap_int(int *a, int *b);
 
 #endif

@@ -9,14 +9,13 @@ HEADERDIR = includes
 SRCFILES =	init_stacks.c		\
 			init_display.c		\
 			error.c				\
-			push.c				\
-			pop.c				\
 			do_op.c				\
 			verifs.c			\
 			indices.c			\
 			rotations.c			\
-			algo_insertion.c	\
-			display.c
+			algo_selection.c	\
+			display.c			\
+			algo_lis.c
 
 CCHEADERS = -I./$(HEADERDIR)				\
 			-I$(LIBFT)/libft/includes		\
