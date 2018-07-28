@@ -1,6 +1,34 @@
 #include "int_array.h"
 #include "libft.h"
+#include <limits.h>
 #include <stdlib.h>
+
+int				int_first(t_int_array array)
+{
+	return ((array.data)[0]);
+}
+
+int				int_last(t_int_array array)
+{
+	return ((array.data)[array.count - 1]);
+}
+
+// int				int_max(t_int_array array)
+// {
+// 	int	i;
+// 	int max;
+// 	int	cur;
+
+// 	i = 0;
+// 	max = INT_MIN;
+// 	while (i < array.count)
+// 	{
+// 		if ((cur = (array.data)[i]) > max)
+// 			max = cur;
+// 		i++;
+// 	}
+// 	return (max);
+// }
 
 void	free_int_array(t_int_array *array)
 {

@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include "int_array.h"
+# include "lds.h"
 # include <string.h>
 # include <wchar.h>
 # define MININT -2147483648

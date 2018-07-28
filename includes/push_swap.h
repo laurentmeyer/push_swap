@@ -20,6 +20,8 @@
 # define PUSH_SWAP
 # define ERR -1
 # define SUCCESS 0
+# define DESCENDING 0
+# define ASCENDING 1
 # define ALGO_COUNT 2
 
 typedef struct	s_display
@@ -64,8 +66,9 @@ void    		rotate_min_a_on_top(t_stacks *stacks);
 int				simple_selection(t_stacks *stacks);
 int				algo_quicksort(t_stacks *stacks);
 int				advanced_selection(t_stacks *stacks);
-t_int_array		*lis(t_int_array *array);
-int				algo_lis(t_stacks *stacks);
+t_int_array 	*get_lds(t_int_array *array);
+int				algo_lds(t_stacks *stacks);
+int				sortable_by_rotation(t_int_array array, int ascending);
 
 
 #endif

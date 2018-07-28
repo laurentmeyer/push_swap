@@ -83,7 +83,8 @@ OBJECTS =	ft_memset.o			\
 			btree_insert_node.o	\
 			sort_int_array.o	\
 			ft_swap_int.o		\
-			int_array.o
+			int_array.o			\
+			lds.o
 
 
 NAME = libft_original.a

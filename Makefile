@@ -15,7 +15,7 @@ SRCFILES =	init_stacks.c		\
 			rotations.c			\
 			algo_selection.c	\
 			display.c			\
-			algo_lis.c
+			algo_lds.c
 
 CCHEADERS = -I./$(HEADERDIR)				\
 			-I$(LIBFT)/libft/includes		\

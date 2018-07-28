@@ -9,6 +9,8 @@ typedef struct	s_int_array
 }				t_int_array;
 
 
+int				int_first(t_int_array array);
+int				int_last(t_int_array array);
 void			int_set(t_int_array *array, int position, int value);
 void			int_push(t_int_array *array, int i);
 int				int_pop(t_int_array *array);

@@ -9,6 +9,7 @@ static void		print_instructions_exit(t_list *list)
 		ft_putchar('\n');
 		list = list->next;
 	}
+	// while (1);
 	exit(0);
 }
 
@@ -42,7 +43,7 @@ static int main_loop(t_stacks *copies)
 	if (ALGO_COUNT == current)
 		print_instructions_exit(shortest_instructions(copies));
 	else if ((0 == current && 1 == simple_selection(&(copies[current])))
-		|| (1 == current && 1 == algo_lis(&(copies[current]))))
+		|| (1 == current && 1 == algo_lds(&(copies[current]))))
 		current++;
 	return (SUCCESS);
 }
@@ -59,15 +60,6 @@ int main(int ac, char **av)
 		exit_message(ERR, "Error\n");
 	init_stacks(&original, ac, av);
 	init_display(&original);
-
-
-	// t_int_array *test = lis(&(original.a));
-	// i = 0;
-	// while (i < test->count)
-	// {
-	// 	ft_printf("%d\n", (test->data)[i++]);
-	// }
-	// while (1);
 
 
 
