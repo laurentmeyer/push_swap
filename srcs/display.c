@@ -43,20 +43,20 @@ static void draw_cols(t_stacks *stacks)
 
     i = 0;
     d = stacks->display;
-    count = stacks->a.count;
+    count = stacks->a->count;
     while (i < count)
     {
-        height = (int)((float)(stacks->a.data[i] - stacks->min)
-                / (stacks->max - stacks->min) * d->win_h / 2);
+        height = (int)((float)(stacks->a->data)[i]
+                / (stacks->a->count + stacks->b->count) * d->win_h / 2);
         draw_col(d, 0, i, height);
         ++i;
     }
     i = 0;
-    count = stacks->b.count;
+    count = stacks->b->count;
     while (i < count)
     {
-        height = (int)((float)(stacks->b.data[i] - stacks->min)
-                / (stacks->max - stacks->min) * d->win_h / 2);
+        height = (int)((float)(stacks->b->data)[i]
+                / (stacks->a->count + stacks->b->count) * d->win_h / 2);
         draw_col(d, 1, i, height);
         ++i;
     }

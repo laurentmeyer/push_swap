@@ -1,5 +1,5 @@
 CC = 		gcc
-CFLAGS =	-Wall -Wextra -Werror
+CFLAGS =	-g -Wall -Wextra -Werror
 NAME =		libftprintf.a
 BUILDDIR =	srcs
 SOURCEDIR =	srcs

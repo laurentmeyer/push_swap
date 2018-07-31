@@ -43,15 +43,18 @@ typedef struct	s_display
 
 typedef struct	s_stacks
 {
-	t_int_array	a;
-	t_int_array	b;
+	t_int_array	*a;
+	t_int_array	*b;
 	t_display	*display;
 	t_list		*instructions;
-	int			count;
-	int			min;
-	int			max;
 	int			visual;
 }				t_stacks;
+
+typedef struct	s_lds_algo
+{
+	t_int_array	*sorted;
+	int			step;
+}				t_lds_algo;
 
 void			init_stacks(t_stacks *stacks, int ac, char **av);
 void			copy_stacks(t_stacks *dst, t_stacks *src);
@@ -59,16 +62,16 @@ int				exit_message(int exit_code, char *message);
 int				do_op(t_stacks *stacks, char *s);
 void			init_display(t_stacks *stacks);
 void    		refresh_display(t_stacks *stacks);
-int  			is_sorted(t_int_array array);
-int				max_index(t_int_array array);
-int				min_index(t_int_array array);
+int  			is_sorted(t_int_array *array);
+int				max_index(t_int_array *array); // a mettre dans libft
 void    		rotate_min_a_on_top(t_stacks *stacks);
 int				simple_selection(t_stacks *stacks);
 int				algo_quicksort(t_stacks *stacks);
 int				advanced_selection(t_stacks *stacks);
 t_int_array 	*get_lds(t_int_array *array);
 int				algo_lds(t_stacks *stacks);
-int				sortable_by_rotation(t_int_array array, int ascending);
+int				sortable_by_rotation(t_int_array *array, int ascending);
+int				try_push_b_value_in_sorted_a(t_stacks *stacks, int value);
 
 
 #endif

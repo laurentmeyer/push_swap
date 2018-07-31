@@ -1,121 +1,99 @@
 #include "push_swap.h"
 #include "int_array.h"
 
-// int         swappable_increasing(t_int_array *array, int start)
-// {
-//     int i;
-
-//     i = start;
-//     if (i >= array->count - 2)
-//         return (1);
-//     while ((array->data)[i] <= (array->data)[i + 1] && i < array->count - 2)
-//         ++i;
-//     if (i == (array->count - 1))
-//         return (1);
-//     if ((array->data)[i + 1] > (array->data)[i + 2])
-//         return (0);
-//     return (swappable_increasing(array, i + 2));
-// }
-
-
 #define A_IN_B 0
-#define B_IN_A 1
-#define RROTATE 0
-#define ROTATE 1
+#define B_IN_A_LDS 1
+#define B_IN_A_QS 2
 
-static int	max(int a, int b)
+void	a_unsorted_in_b_sorted(t_stacks *stacks, t_lds_algo *algo)
 {
-	return (a > b ? a : b);
+	static t_int_array	*lds = NULL;
+	int					index;
+
+	if (NULL == lds && NULL == (lds = get_lds(stacks->a)))
+			exit_message(0, "algo_LDS failed\n");
+	else if (0 == lds->count)
+	{
+		if (is_sorted(stacks->a))
+			algo->step = B_IN_A_LDS;
+		free_int_array(lds);
+		lds = NULL;
+	}
+	else if ((index = int_index(lds, int_last(stacks->a))) >= 0)
+	{
+		do_op(stacks, "ra");
+		int_push(algo->sorted, int_remove(lds, index));
+	}
+	else
+		do_op(stacks, "pb");
 }
 
-int predecessor_index(t_int_array *array, int to_place)
+void	b_unsorted_in_a_sorted(t_stacks *stacks, t_lds_algo *algo)
 {
-	int	i;
+	static t_int_array	*lds = NULL;
 
-	i = min_index(*array);
-	if (to_place < (array->data)[i])
-		return (i);
-	i = max_index(*array);
-	if (to_place > (array->data)[i])
-		return (i > 0 ? i - 1 : array->count - 1);
-	i = array->count - 1;
-	if (to_place <= (array->data)[i] && to_place >= (array->data)[0])
-		return (i);
-	i--;
-	while (i >= 0)
+	if (NULL == lds && NULL == (lds = get_lds(stacks->b)))
+		exit_message(0, "algo_LDS failed\n");
+	else if (0 == lds->count)
 	{
-		if (to_place <= (array->data)[i] && to_place >= (array->data)[i + 1])
-			return (i);
-		--i;
+		// if (stacks->b->count <= 0)
+		if (stacks->b->count <= (stacks->a->count + stacks->b->count) * 1 / 2)
+			algo->step = B_IN_A_QS;
+		free_int_array(lds);
+		lds = NULL;
 	}
-	return (-1);
+	else
+	{
+		if (1 == try_push_b_value_in_sorted_a(stacks, int_last(lds)))
+			int_push(algo->sorted, int_remove(lds, lds->count - 1));
+	}
+}
+
+void	b_in_a_qs(t_stacks *stacks, t_lds_algo *algo)
+{
+	static t_int_array *lds = NULL;
+
+	if (0 == stacks->b->count)
+		do_op(stacks, "ra"); // a faire + intelligemment
+	else if (NULL == lds && NULL == (lds = upper_percentile(stacks->b, 25)))
+		exit_message(0, "algo_LDS failed\n");
+	else if (0 == lds->count)
+	{
+		free_int_array(lds);
+		lds = NULL;
+	}
+	// a améliorer avec rr et rrr
+	else if (int_index(lds, int_last(stacks->b)) < 0)
+		do_op(stacks, "rb"); // a faire + intelligemment
+	else
+	{
+		if (1 == try_push_b_value_in_sorted_a(stacks, int_last(lds)))
+			int_push(algo->sorted, int_remove(lds, lds->count - 1));
+	}
 }
 
 int algo_lds(t_stacks *stacks)
 {
-	static t_int_array	*lds = NULL;
-	static int			step = A_IN_B;
-	int					index;
+	static t_lds_algo *algo = NULL;
 
-	if (NULL == lds && ((A_IN_B == step && !(lds = get_lds(&(stacks->a))))
-		|| (B_IN_A == step && !(lds = get_lds(&(stacks->b))))))
-		exit_message(0, "algo_LDS failed\n");
- 	if (0 == stacks->b.count && is_sorted(stacks->a))
+	if (NULL == algo)
 	{
-		free_int_array(lds);
+		if (NULL == (algo = (t_lds_algo *)malloc(sizeof(t_lds_algo)))
+			|| NULL == (algo->sorted = new_int_array(stacks->a->capacity)))
+			exit_message(0, "algo_LDS failed\n");
+		algo->step = A_IN_B;
+	}
+	if (0 == stacks->b->count && is_sorted(stacks->a))
+	{
+		free_int_array(algo->sorted);
+		free(algo);
 		return (1);
 	}
-	if (A_IN_B == step)
-	{
-		if (0 == lds->count && is_sorted(stacks->a))
-		{
-			step = B_IN_A;
-			free_int_array(lds);
-			lds = NULL;
-		}
-		else if ((index = int_index(lds, int_last(stacks->a))) >= 0)
-		{
-			do_op(stacks, "ra");
-			int_remove(lds, index);
-		}
-		else
-			do_op(stacks, "pb");
-	}
-	else if (B_IN_A == step)
-	{
-		if (0 == stacks->b.count)
-			do_op(stacks, "ra"); // a faire + intelligemment
-		else if (0 == lds->count)
-		{
-			free_int_array(lds);
-			lds = NULL;
-		}
-		else
-		{
-			int b_to_place = int_last(*lds);
-			int place_in_a = predecessor_index(&(stacks->a), b_to_place);
-			int b_to_rotate = stacks->b.count - 1 - int_index(&(stacks->b), b_to_place);
-			int a_to_rotate = stacks->a.count - 1 - place_in_a;
-			int	direction;
-
-			if (max(a_to_rotate, b_to_rotate) > max(int_index(&(stacks->b), b_to_place), place_in_a))
-				direction = RROTATE;
-			else
-				direction = ROTATE;
-
-
-			if (a_to_rotate > 0 && b_to_rotate > 0)
-				do_op(stacks, direction == ROTATE ? "rr" : "rrr");
-			else if (a_to_rotate > 0 && b_to_rotate == 0)
-				do_op(stacks, direction == ROTATE ? "ra" : "rra");
-			else if (a_to_rotate == 0 && b_to_rotate > 0)
-				do_op(stacks, direction == ROTATE ? "rb" : "rrb");
-			else if (a_to_rotate == 0 && b_to_rotate == 0)
-			{
-				do_op(stacks, "pa");
-				int_remove(lds, lds->count - 1);
-			}
-		}
-	}
+	else if (A_IN_B == algo->step)
+		a_unsorted_in_b_sorted(stacks, algo);
+	else if (B_IN_A_LDS == algo->step)
+		b_unsorted_in_a_sorted(stacks, algo);
+	else if (B_IN_A_QS == algo->step)
+		b_in_a_qs(stacks, algo);
 	return (0);
 }

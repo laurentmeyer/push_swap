@@ -5,15 +5,15 @@ void rotate_min_a_on_top(t_stacks *stacks)
 	int i;
 	char *operation;
 
-	i = min_index(stacks->a);
-	if (i < stacks->a.count / 2)
+	i = int_min_index(stacks->a);
+	if (i < stacks->a->count / 2)
 	{
 		operation = "rra";
 		i++;
 	}
 	else
 	{
-		i = stacks->a.count - 1 - i;
+		i = stacks->a->count - 1 - i;
 		operation = "ra";
 	}
 	do_op(stacks, operation);

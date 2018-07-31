@@ -27,7 +27,7 @@ static int main_loop(t_stacks *stacks)
 	gnl = gnlite(STDIN_FILENO, &s);
 	if (0 == gnl)
 	{
-		if (is_sorted(stacks->a) && 0 == stacks->b.count)
+		if (is_sorted(stacks->a) && 0 == stacks->b->count)
 			ft_putstr("OK\n");
 		else
 			ft_putstr("KO\n");

@@ -12,6 +12,7 @@ SRCFILES =	init_stacks.c		\
 			do_op.c				\
 			verifs.c			\
 			indices.c			\
+			insertions.c		\
 			rotations.c			\
 			algo_selection.c	\
 			display.c			\

@@ -10,10 +10,10 @@ static int		get_win_w(t_stacks *stacks)
 	int	i;
 	int	a;
 
-	if (stacks->a.count > MIN_WIN_W)
-		return (stacks->a.count);
+	if (stacks->a->count > MIN_WIN_W)
+		return (stacks->a->count);
 	i = 2;
-	while ((a = i * stacks->a.count) < MIN_WIN_W)
+	while ((a = i * stacks->a->count) < MIN_WIN_W)
 		i++;
 	return (a);
 }
@@ -38,6 +38,6 @@ void            init_display(t_stacks *stacks)
 		exit_message(ERR, "Error mlx_data_address\n");
 	d->chars_per_pixel = d->bits_per_pixel / 8;
 	d->pixels_per_line = d->size_line / d->chars_per_pixel;
-    d->pixels_per_col = d->win_w / stacks->a.count;
+    d->pixels_per_col = d->win_w / stacks->a->count;
     stacks->display = d;
 }

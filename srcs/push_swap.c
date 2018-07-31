@@ -9,7 +9,8 @@ static void		print_instructions_exit(t_list *list)
 		ft_putchar('\n');
 		list = list->next;
 	}
-	// while (1);
+	// while (1)
+	// 	;
 	exit(0);
 }
 
@@ -48,6 +49,22 @@ static int main_loop(t_stacks *copies)
 	return (SUCCESS);
 }
 
+void	normalize_a(t_stacks *original)
+{
+	t_int_array	*normalized;
+	int			i;
+
+	if (NULL == (normalized = int_values_to_ranks(original->a)))
+		exit_message(ERR, "could not normalize\n");
+	i = 0;
+	while (i < normalized->count)
+	{
+		(original->a->data)[i] = (normalized->data)[i];
+		++i;
+	}
+	free_int_array(normalized);
+}
+
 int main(int ac, char **av)
 {
 	t_stacks	original;
@@ -59,6 +76,7 @@ int main(int ac, char **av)
 	if (0 == --ac || NULL == *(++av))
 		exit_message(ERR, "Error\n");
 	init_stacks(&original, ac, av);
+	normalize_a(&original);
 	init_display(&original);
 
 
