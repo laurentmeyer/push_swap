@@ -14,9 +14,10 @@ SRCFILES =	init_stacks.c		\
 			indices.c			\
 			insertions.c		\
 			rotations.c			\
+			algo_lds.c			\
 			algo_selection.c	\
-			display.c			\
-			algo_lds.c
+			algo_quicksort.c	\
+			display.c
 
 CCHEADERS = -I./$(HEADERDIR)				\
 			-I$(LIBFT)/libft/includes		\

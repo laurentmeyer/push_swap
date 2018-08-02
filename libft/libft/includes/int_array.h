@@ -11,9 +11,12 @@ typedef struct	s_int_array
 
 int				int_first(t_int_array *array);
 int				int_last(t_int_array *array);
+int				int_min(t_int_array *array);
+int				int_max(t_int_array *array);
 int				int_min_index(t_int_array *array);
 void			int_set(t_int_array *array, int position, int value);
-void			int_push(t_int_array *array, int i);
+void			int_unshift(t_int_array *array, int value);
+void			int_push(t_int_array *array, int value);
 int				int_pop(t_int_array *array);
 int				int_index(t_int_array *array, int i);
 int				int_remove(t_int_array *array, int index);

@@ -44,7 +44,8 @@ static int main_loop(t_stacks *copies)
 	if (ALGO_COUNT == current)
 		print_instructions_exit(shortest_instructions(copies));
 	else if ((0 == current && 1 == simple_selection(&(copies[current])))
-		|| (1 == current && 1 == algo_lds(&(copies[current]))))
+		// || (1 == current && 1 == algo_lds(&(copies[current]))))
+		|| (1 == current && 1 == algo_quicksort(&(copies[current]))))
 		current++;
 	return (SUCCESS);
 }

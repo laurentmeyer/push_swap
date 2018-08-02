@@ -56,7 +56,7 @@ int				int_min(t_int_array *array)
 	return (min);
 }
 
-int				int_max(t_int_array array)
+int				int_max(t_int_array *array)
 {
 	int	i;
 	int max;
@@ -64,9 +64,9 @@ int				int_max(t_int_array array)
 
 	i = 0;
 	max = INT_MIN;
-	while (i < array.count)
+	while (i < array->count)
 	{
-		if ((cur = (array.data)[i]) > max)
+		if ((cur = (array->data)[i]) > max)
 			max = cur;
 		i++;
 	}
@@ -90,6 +90,22 @@ void	int_push(t_int_array *array, int i)
 	if (array->count >= array->capacity)
 		reallocate(array);
 	(array->data)[array->count] = i;
+	array->count += 1;
+}
+
+void			int_unshift(t_int_array *array, int value)
+{
+	int	i;
+
+	if (array->count >= array->capacity)
+		reallocate(array);
+	i = array->count;
+	while (i > 0)
+	{
+		(array->data)[i] = (array->data)[i - 1];
+		--i;
+	}
+	(array->data)[0] = value;
 	array->count += 1;
 }
 

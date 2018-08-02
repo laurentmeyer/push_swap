@@ -88,7 +88,7 @@ static int get_new_l(t_lds *lds)
 	return (lo);
 }
 
-t_int_array *get_lds(t_int_array *array)
+t_int_array		*get_lds_int_array(t_int_array *array)
 {
 	t_lds *lds;
 	t_int_array *s;
@@ -109,4 +109,14 @@ t_int_array *get_lds(t_int_array *array)
 	s = build_lds(lds);
 	free_lds(lds);
 	return (s);
+}
+
+t_int_array		*get_lds_int_ptr(int *src, int len)
+{
+	t_int_array array;
+
+	array.capacity = len;
+	array.count = len;
+	array.data = src;
+	return (get_lds_int_array(&array));
 }
