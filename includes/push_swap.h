@@ -72,6 +72,8 @@ t_int_array 	*get_lds(t_int_array *array);
 int				algo_lds(t_stacks *stacks);
 int				sortable_by_rotation(t_int_array *array, int ascending);
 int				try_push_b_value_in_sorted_a(t_stacks *stacks, int value);
+int 			swappable_increasing(int *array, int len);
+int				swappable_decreasing(int *array, int len);
 
 
 #endif

@@ -1,229 +1,194 @@
+/*
+description de l'algo actuel
+
+- on cherche à toujours avoir un groupe non trié en haut d'une des deux piles
+=> quand on trie un groupe, on fait en même temps une rotation sur l'autre si la pile en haut de l'autre est triée
+- on trie tous les groupes en essayant d'avoir un nombre d'entiers triés égaux sur les 2 piles
+*/
+
 #include "push_swap.h"
+#include "libft.h"
 #include "int_array.h"
 #include <limits.h>
 
-#define QS_STEP_SPLIT 0
-#define QS_STEP_MERGE 1
-#define ELT_IN_A 0
-#define ELT_IN_B 1
+#define qs_step_split 0
+#define qs_step_merge 1
+#define STACK_A 0
+#define STACK_B 1
+#define DONE 0
+#define CONTINUE 1
 
-typedef struct s_algo_qs
+typedef struct	s_group
 {
-	t_int_array *split;
-	t_int_array *groups;
-	int			step;
-	int 		group_count;
-	int 		current_group;
-	int 		current_group_count;
-	int 		current_group_max;
-	int			skip_splitting;
-	int 		cd_revol;
+	int			min;
+	int			max;
+	int			dont_split;
+	int			stack;
+}				t_group;
+
+typedef struct	s_algo_qs
+{
+	t_group		*groups;
+	t_group 	*cur_group;
+	t_group 	*next_group;
+	int 		groups_len;
+	int			dist_next_a;
+	int			dist_next_b;
+	int			next_group_max;
 	int 		cd_group;
 }				t_algo_qs;
 
 t_algo_qs *new_algo_qs(t_stacks *stacks)
 {
-	t_algo_qs *algo;
-	int i;
+	t_algo_qs	*algo;
+	int			l;
 
-	if (NULL == (algo = (t_algo_qs *)malloc(sizeof(t_algo_qs))))
+	l = stacks->a->count;
+	if (NULL == (algo = (t_algo_qs *)malloc(sizeof(t_algo_qs)))
+		|| NULL == (algo->groups = (t_group *)malloc(l * sizeof(t_group))))
 		return (NULL);
-	if (NULL == (algo->split = copy_int_array(stacks->a)) || NULL == (algo->groups = copy_int_array(stacks->a)))
-		return (NULL);
-	algo->step = QS_STEP_SPLIT;
-	algo->group_count = 0;
+	algo->cur_group = NULL;
+	algo->next_group = NULL;
+	algo->groups_len = 0;
+	(algo->groups)[(algo->groups_len)++] = (t_group){0, l - 1, 0, STACK_A};
 	algo->cd_group = 0;
-	algo->cd_revol = 0;
-	i = 0;
-	while (i < algo->split->count)
-	{
-		(algo->split->data)[i] = ELT_IN_A;
-		(algo->groups->data)[i] = algo->group_count;
-		++i;
-	}
 	return (algo);
 }
 
 void free_algo_qs(t_algo_qs *algo)
 {
-	if (NULL != algo->split)
-		free_int_array(algo->split);
 	if (NULL != algo->groups)
-		free_int_array(algo->groups);
+		free(algo->groups);
 	free(algo);
 }
 
-void update_split(t_int_array *src)
+t_group	*find_group(t_algo_qs *algo, int value)
 {
-	int i;
-	int j;
-	int cutoff;
+	int		i;
+	t_group	*group;
 
 	i = 0;
-	while (i < src->count)
+	while (i < algo->groups_len)
 	{
-		j = i;
-		while (j < src->count && (src->data)[i] == (src->data)[j + 1])
-			j++;
-		cutoff = (i + j) / 2;
-		while (i <= cutoff)
-			(src->data)[i++] = ELT_IN_A;
-		while (i <= j)
-			(src->data)[i++] = ELT_IN_B;
-	}
-}
-
-int int_count_occurences(t_int_array *array, int value)
-{
-	int i;
-	int ret;
-
-	ret = 0;
-	i = 0;
-	while (i < array->count)
-	{
-		if ((array->data)[i] == value)
-			ret++;
+		group = algo->groups + i;
+		if (value >= group->min && value <= group->max)
+			return (group);
 		i++;
 	}
-	return (ret);
+	return (NULL);
 }
 
-int		should_swap_a(t_algo_qs *algo, t_int_array *a)
+int	dist_unsorted_group(t_algo_qs *algo, t_int_array *stack)
 {
-	return ((algo->cd_group >= 2
-		&& algo->skip_splitting
-		&& (a->data)[a->count - 1] > (a->data)[a->count - 2]
-		&& (a->data)[a->count - 1] < (a->data)[a->count - 3]));
-}
+	int		i;
+	t_group	*group;
 
-void split_stacks(t_stacks *stacks, t_algo_qs *algo)
-{
-	if (0 == algo->cd_group)
-		algo->step = QS_STEP_MERGE;
-	else
+	i = 0;
+	while (i < stack->count)
 	{
-		if (should_swap_a(algo, stacks->a))
-		;
-			// do_op(stacks, "sa");
-		else
-		{
-			if (algo->skip_splitting > 0)
-				do_op(stacks, "ra");
-			else if (ELT_IN_A == (algo->split->data)[int_last(stacks->a)])
-			{
-				(algo->groups->data)[int_last(stacks->a)] = algo->group_count;
-				do_op(stacks, "ra");
-			}
-			else
-				do_op(stacks, "pb");
-			algo->cd_group--;
-			algo->cd_revol--;
-		}
+		group = find_group(algo, (stack->data)[stack->count - 1 - i]);
+		if (0 == group->dont_split)
+			return (i);
+		i += (group->max - group->min + 1);
+	}
+	return (-1);
+}
+
+void	update_split_requirements(t_stacks *stacks, t_algo_qs *algo)
+{
+	t_int_array	*stack;
+	int			look_for;
+	int			*start;
+	int			len;
+
+	if (algo->cur_group)
+	{
+		stack = algo->cur_group->stack == STACK_A ? stacks->a : stacks->b;
+		look_for = algo->cur_group->stack == STACK_A ?
+			algo->cur_group->max : algo->cur_group->min;
+		start = stack->data + int_index(stack, look_for);
+		len = algo->cur_group->max - algo->cur_group->min + 1;
+		algo->cur_group->dont_split = algo->cur_group->stack == STACK_A ?
+			swappable_decreasing(start, len) : swappable_increasing(start, len);
+	}
+	if (algo->next_group)
+	{
+		stack = algo->next_group->stack == STACK_A ? stacks->a : stacks->b;
+		look_for = algo->next_group->stack == STACK_A ?
+			algo->next_group->max : algo->next_group->min;
+		start = stack->data + int_index(stack, look_for);
+		len = algo->next_group->max - algo->next_group->min + 1;
+		algo->next_group->dont_split = algo->next_group->stack == STACK_A ?
+			swappable_decreasing(start, len) : swappable_increasing(start, len);
 	}
 }
 
-int swappable_decreasing(int *array, int len)
+void	align_group_to_split(t_stacks *stacks, t_algo_qs *algo)
 {
-	int	*copy;
-	int	i;
-
-	if (NULL == (copy = (int *)malloc(len * sizeof(int))))
-		return (ERR);
-	ft_memcpy(copy, array, len * sizeof(int));
-	i = 0;
-	while (++i < len)
-		if (copy[i - 1] < copy[i])
-		{
-			ft_swap_int(copy + i - 1, copy + i);
-			++i;
-		}
-	i = 0;
-	while (i < len - 1 && copy[i] < copy[i + 1])
-		++i;
-	free(copy);
-	return (i == len);
-}
-
-int group_max(int *array, int len)
-{
-	int	max;
-	int	i;
-
-	max = INT_MIN;
-	i = 0;
-	while (i < len)
-	{
-		if (array[i] > max)
-			max = array[i];
-		i++;
-	}
-	return (max);
-}
-
-int	a_top_in_right_place(t_int_array *a, t_algo_qs *algo)
-{
-	int	theoretical_value;
-	int	ret;
-
-	theoretical_value = algo->current_group_max - algo->cd_group + 1;
-	int d;
-	d = int_last(a);
-	ret = (theoretical_value == int_last(a));
-	return (ret);
-}
-
-void merge_stacks(t_stacks *stacks, t_algo_qs *algo)
-{
-	int debug[4];
-
-	// si on peut facilememt trier b, on le fait
-	static int to_rotate_a = 0;
-
-	if (to_rotate_a > 0)
-	{
+	algo->dist_next_a = dist_unsorted_group(algo, stacks->a);
+	algo->dist_next_b = dist_unsorted_group(algo, stacks->b);
+	if (0 == algo->dist_next_a)
+		algo->cur_group = find_group(algo, int_last(stacks->a));
+	else if (algo->dist_next_a > 0) 
 		do_op(stacks, "ra");
-		to_rotate_a--;
-	}
-	else if (stacks->b->count > 0)
-	{
-		do_op(stacks, "pa");
-		to_rotate_a++;
-	}
-	else if (0 == stacks->b->count)
-	{
-		if (0 == algo->cd_revol)
-		{
-			update_split(algo->split); // a ne pas faire tous les tours !!
-			algo->cd_revol = stacks->a->count + stacks->b->count;
-		}
-		algo->current_group = (algo->groups->data)[int_last(stacks->a)];
-		algo->current_group_count = int_count_occurences(algo->groups, algo->current_group);
-		// algo->current_group_max = group_max(stacks->a->data + stacks->a->count - algo->current_group_count, algo->current_group_count);
-		algo->cd_group = algo->current_group_count;
+	else if (0 == algo->dist_next_b)
+		algo->cur_group = find_group(algo, int_last(stacks->b));
+	else if (algo->dist_next_a < 0)
+		do_op(stacks, "rb");
+	if (0 == algo->dist_next_a || 0 == algo->dist_next_b)
+		algo->cd_group = algo->cur_group->max - algo->cur_group->min + 1;
+}
 
-		if (algo->current_group_count <= 3)
-		{
-			int d = 0;
-			int offset = stacks->a->count - algo->cd_group;
-			while (d < algo->cd_group)
-			{
-				debug[d] = (stacks->a->data)[d + offset];
-				d++;
-			}
-			while (d < 4)
-			{
-				debug[d] = -1;
-				d++;
-			}
-			offset = d;
-		}
+void 	set_next_group(t_algo_qs *algo)
+{
+	algo->next_group = algo->groups + algo->groups_len++;
+	algo->next_group_max = (algo->cur_group->min + algo->cur_group->max) / 2;
+	algo->next_group->min = algo->cur_group->min;
+	algo->next_group->max = algo->next_group_max;
+	algo->cur_group->min = algo->next_group_max + 1;
+	algo->next_group->stack = (STACK_A == algo->cur_group->stack) ? STACK_B : STACK_A;
+}
 
-		a_top_in_right_place(stacks->a, algo);
-		algo->skip_splitting = swappable_decreasing(stacks->a->data + stacks->a->count - algo->current_group_count, algo->current_group_count);
-		algo->group_count += 1;
-		algo->step = QS_STEP_SPLIT;
+void split_current_stack(t_stacks *stacks, t_algo_qs *algo)
+{
+	t_int_array *stack;
+
+	stack = algo->cur_group->stack == STACK_A ? stacks->a : stacks->b;
+	if (int_last(stack) > algo->next_group_max)
+		do_op(stacks, algo->cur_group->stack == STACK_A ? "ra" : "pa");
+	else
+		do_op(stacks, algo->cur_group->stack == STACK_A ? "pb" : "rb");
+	(algo->cd_group)--;
+}
+
+void swap_if_necessary(t_stacks *stacks, t_algo_qs *algo)
+{
+	t_int_array *stack;
+
+	if (NULL == algo->cur_group)
+		return ;
+	stack = algo->cur_group->stack == STACK_A ? stacks->a : stacks->b;
+	if (stack->count >= 2 && stack == stacks->a && int_last(stack) == (stack->data)[stack->count - 2] + 1)
+		do_op(stacks, "sa");
+	else if (stack->count >= 2 && stack == stacks->b && int_last(stack) == (stack->data)[stack->count - 2] - 1)
+		do_op(stacks, "sb");
+}
+
+int split_stacks(t_stacks *stacks, t_algo_qs *algo)
+{
+	if (algo->dist_next_a < 0 && algo->dist_next_b < 0)
+		// return (1);
+		while (1)
+			;
+	swap_if_necessary(stacks, algo);
+	if (0 == algo->cd_group)
+	{
+		update_split_requirements(stacks, algo);
+		align_group_to_split(stacks, algo);
+		set_next_group(algo);
 	}
+	else split_current_stack(stacks, algo);
+	return (0);
 }
 
 int algo_quicksort(t_stacks *stacks)
@@ -237,9 +202,5 @@ int algo_quicksort(t_stacks *stacks)
 		free_algo_qs(algo);
 		return (1);
 	}
-	else if (QS_STEP_SPLIT == algo->step)
-		split_stacks(stacks, algo);
-	else if (QS_STEP_MERGE == algo->step)
-		merge_stacks(stacks, algo);
-	return (0);
+	return (split_stacks(stacks, algo));
 }
