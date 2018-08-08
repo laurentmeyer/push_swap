@@ -54,6 +54,7 @@ typedef struct	s_lds_algo
 {
 	t_int_array	*sorted;
 	int			step;
+	int			selection_count;
 }				t_lds_algo;
 
 void			init_stacks(t_stacks *stacks, int ac, char **av);
@@ -65,6 +66,7 @@ void    		refresh_display(t_stacks *stacks);
 int  			is_sorted(t_int_array *array);
 int				max_index(t_int_array *array); // a mettre dans libft
 void    		rotate_min_a_on_top(t_stacks *stacks);
+void 			rotate_max_b_on_top(t_stacks *stacks);
 int				simple_selection(t_stacks *stacks);
 int				algo_quicksort(t_stacks *stacks);
 int				advanced_selection(t_stacks *stacks);

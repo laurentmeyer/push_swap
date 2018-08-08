@@ -3,7 +3,10 @@
 
 #define SORT_A_IN_B 0
 #define SORT_B_IN_A 1
-#define B_IN_A_QS 2
+#define B_IN_A_SELECT 2
+#define A_BACK_TO_B 3
+#define B_IN_A_QS 4
+#define ALGO_QUIT 5
 
 t_int_array	*int_not_in(t_int_array *src, t_int_array *exclude)
 {
@@ -50,7 +53,7 @@ t_int_array	*supplement_lds(t_int_array *a, t_int_array *lds)
 	return (lds);
 }
 
-void a_unsorted_in_b_sorted(t_stacks *stacks, t_lds_algo *algo)
+void a_in_b(t_stacks *stacks, t_lds_algo *algo)
 {
 	static t_int_array *lds = NULL;
 	int index;
@@ -110,7 +113,7 @@ int swap_a_if_necessary(t_stacks *stacks)
 	return (1);
 }
 
-void b_unsorted_in_a_sorted(t_stacks *stacks, t_lds_algo *algo)
+void b_in_a_lds(t_stacks *stacks, t_lds_algo *algo)
 {
 	static t_int_array *lds = NULL;
 
@@ -118,15 +121,17 @@ void b_unsorted_in_a_sorted(t_stacks *stacks, t_lds_algo *algo)
 	{
 		if (NULL == (lds = get_lds_int_array(stacks->b)))
 			exit_message(0, "algo_LDS failed\n");
-		if (NULL == supplement_lds(stacks->b, lds))
-			exit_message(0, "algo_LDS failed\n");
+		// if (NULL == supplement_lds(stacks->b, lds))
+		// 	exit_message(0, "algo_LDS failed\n");
 	}
 	else if (0 != swap_a_if_necessary(stacks))
 		;
 	else if (0 == lds->count)
 	{
 		// if (stacks->b->count <= 0)
-		if (stacks->b->count <= (stacks->a->count + stacks->b->count) * 1 / 2)
+		if (stacks->b->count <= (stacks->a->count + stacks->b->count) * 3 / 10)
+			// algo->step = B_IN_A_SELECT;
+			// algo->step = ALGO_QUIT;
 			algo->step = B_IN_A_QS;
 		free_int_array(lds);
 		lds = NULL;
@@ -136,6 +141,30 @@ void b_unsorted_in_a_sorted(t_stacks *stacks, t_lds_algo *algo)
 		if (1 == try_push_b_value_in_sorted_a(stacks, int_last(lds)))
 			int_push(algo->sorted, int_remove(lds, lds->count - 1));
 	}
+}
+
+void	b_in_a_select(t_stacks *stacks, t_lds_algo *algo)
+{
+	if (stacks->b->count <= 1)
+		algo->step = A_BACK_TO_B;
+	else if (int_max(stacks->b) == int_last(stacks->b))
+	{
+		algo->selection_count++;
+		do_op(stacks, "pa");
+	}
+	else
+		rotate_max_b_on_top(stacks);
+}
+
+void	a_back_in_b(t_stacks *stacks, t_lds_algo *algo)
+{
+	if (algo->selection_count > 0)
+	{
+		algo->selection_count--;
+		do_op(stacks, "pb");
+	}
+	else
+		algo->step = B_IN_A_QS;
 }
 
 void b_in_a_qs(t_stacks *stacks, t_lds_algo *algo)
@@ -172,6 +201,7 @@ int algo_lds(t_stacks *stacks)
 		if (NULL == (algo = (t_lds_algo *)malloc(sizeof(t_lds_algo))) || NULL == (algo->sorted = new_int_array(stacks->a->capacity)))
 			exit_message(0, "algo_LDS failed\n");
 		algo->step = SORT_A_IN_B;
+		algo->selection_count = 0;
 	}
 	if (0 == stacks->b->count && is_sorted(stacks->a))
 	// if (algo->sorted->count == (stacks->a->count + stacks->b->count))
@@ -183,10 +213,16 @@ int algo_lds(t_stacks *stacks)
 	if (0 != swapped_if_opportunity(stacks))
 		;
 	else if (SORT_A_IN_B == algo->step)
-		a_unsorted_in_b_sorted(stacks, algo);
+		a_in_b(stacks, algo);
 	else if (SORT_B_IN_A == algo->step)
-		b_unsorted_in_a_sorted(stacks, algo);
+		b_in_a_lds(stacks, algo);
+	else if (B_IN_A_SELECT == algo->step)
+		b_in_a_select(stacks, algo);
+	else if (A_BACK_TO_B == algo->step)
+		a_back_in_b(stacks, algo);
 	else if (B_IN_A_QS == algo->step)
 		b_in_a_qs(stacks, algo);
+	else if (ALGO_QUIT == algo->step)
+		return (1);
 	return (0);
 }

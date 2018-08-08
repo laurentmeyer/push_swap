@@ -248,3 +248,21 @@ t_int_array *int_values_to_ranks(t_int_array *array)
 	free(tmp);
 	return (res);
 }
+
+t_int_array	*int_not_in(t_int_array *src, t_int_array *exclude)
+{
+	t_int_array	*res;
+	int			i;
+	int			index;
+
+	if (NULL == (res = copy_int_array(res = copy_int_array(src))))
+		return (NULL);
+	i = 0;
+	while (i < exclude->count)
+	{
+		if ((index = int_index(res, (exclude->data)[i])) >= 0)
+			int_remove(res, index);
+		++i;
+	}
+	return (res);
+}

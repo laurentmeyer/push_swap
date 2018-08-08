@@ -26,5 +26,6 @@ t_int_array		*new_int_array(int capacity);
 t_int_array		*copy_int_array(t_int_array *src);
 t_int_array		*upper_percentile(t_int_array *src, int percent);
 t_int_array		*int_values_to_ranks(t_int_array *array);
+t_int_array		*int_not_in(t_int_array *src, t_int_array *exclude);
 
 #endif
