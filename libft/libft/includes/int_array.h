@@ -19,6 +19,7 @@ void			int_unshift(t_int_array *array, int value);
 void			int_push(t_int_array *array, int value);
 int				int_pop(t_int_array *array);
 int				int_index(t_int_array *array, int i);
+void			int_insert(t_int_array *array, int index, int value);
 int				int_remove(t_int_array *array, int index);
 void			free_int_array(t_int_array *array);
 t_int_array		*new_int_array(int capacity);

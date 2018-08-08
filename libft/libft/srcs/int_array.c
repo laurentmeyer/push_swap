@@ -130,10 +130,28 @@ int				int_index(t_int_array *array, int i)
 	return (-1);
 }
 
-int		int_remove(t_int_array *array, int index)
+void	int_insert(t_int_array *array, int index, int value)
 {
 	int	i;
-	int	res;
+
+	if (index < 0 || index >= array->count)
+		return ;
+	if (array->count >= array->capacity)
+		reallocate(array);
+	array->count += 1;
+	i = array->count - 1;
+	while (i > index)
+	{
+		(array->data)[i] = (array->data)[i - 1];
+		i--;
+	}
+	(array->data)[index] = value;
+}
+
+int int_remove(t_int_array *array, int index)
+{
+	int i;
+	int res;
 
 	i = index;
 	array->count -= 1;
@@ -146,10 +164,10 @@ int		int_remove(t_int_array *array, int index)
 	return (res);
 }
 
-t_int_array		*new_int_array(int capacity)
+t_int_array *new_int_array(int capacity)
 {
-	t_int_array	*res;
-	int			i;
+	t_int_array *res;
+	int i;
 
 	if (NULL == (res = (t_int_array *)malloc(sizeof(t_int_array))))
 		return (NULL);
@@ -162,9 +180,9 @@ t_int_array		*new_int_array(int capacity)
 	res->count = 0;
 	return (res);
 }
-t_int_array		*copy_int_array(t_int_array *src)
+t_int_array *copy_int_array(t_int_array *src)
 {
-	t_int_array	*res;
+	t_int_array *res;
 
 	if (NULL == (res = (t_int_array *)malloc(sizeof(t_int_array))))
 		return (NULL);
@@ -176,11 +194,11 @@ t_int_array		*copy_int_array(t_int_array *src)
 	return (res);
 }
 
-int		int_min_index(t_int_array *array)
+int int_min_index(t_int_array *array)
 {
-	int	index;
-	int	i;
-	int	min;
+	int index;
+	int i;
+	int min;
 
 	i = 0;
 	index = 0;
@@ -197,28 +215,27 @@ int		int_min_index(t_int_array *array)
 	return (index);
 }
 
-t_int_array		*upper_percentile(t_int_array *src, int percent)
+t_int_array *upper_percentile(t_int_array *src, int percent)
 {
-	t_int_array	*res;
-	int			keep;
-
+	t_int_array *res;
+	int keep;
 
 	if (NULL == (res = copy_int_array(src)))
 		return (NULL);
 	keep = percent * (res->count) / 100;
 	if (keep <= 0)
 		keep = 1; // discutable
-	while (res->count > keep) 
+	while (res->count > keep)
 		int_remove(res, int_min_index(res));
 	return (res);
 }
 
-t_int_array		*int_values_to_ranks(t_int_array *array)
+t_int_array *int_values_to_ranks(t_int_array *array)
 {
-	t_int_array	*tmp;
-	t_int_array	*res;
-	int			min;
-	int			cur;
+	t_int_array *tmp;
+	t_int_array *res;
+	int min;
+	int cur;
 
 	if (!(tmp = copy_int_array(array)) || !(res = copy_int_array(array)))
 		return (NULL);

@@ -23,7 +23,17 @@
 		"lds.h": "c",
 		"__bit_reference": "c",
 		"bitset": "c",
-		"chrono": "c"
+		"chrono": "c",
+		"__functional_base": "c",
+		"atomic": "c",
+		"functional": "c",
+		"limits": "c",
+		"locale": "c",
+		"memory": "c",
+		"ratio": "c",
+		"system_error": "c",
+		"tuple": "c",
+		"type_traits": "c"
 	},
 	"C_Cpp.intelliSenseEngineFallback": "Disabled"
 }
