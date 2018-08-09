@@ -15,7 +15,7 @@ int predecessor_index(t_int_array *array, int to_place)
 	i = int_min_index(array);
 	if (to_place < (array->data)[i])
 		return (i);
-	i = max_index(array);
+	i = int_index(array, int_max(array));
 	if (to_place > (array->data)[i])
 		return (i > 0 ? i - 1 : array->count - 1);
 	i = array->count - 1;
@@ -38,18 +38,16 @@ int try_push_b_value_in_sorted_a(t_stacks *stacks, int value)
 	int a_to_rotate = stacks->a->count - 1 - place_in_a;
 	int direction;
 
-	int v;
-	v = value;
 	if (a_to_rotate == 0 && b_to_rotate == 0)
 	{
 		do_op(stacks, "pa");
 		return (1);
 	}
-	else if (max(a_to_rotate, b_to_rotate) > max(int_index(stacks->b, value), place_in_a))
-		direction = RROTATE;
-	else
-		direction = ROTATE;
-	if (a_to_rotate > 0 && b_to_rotate > 0)
+	direction = (max(a_to_rotate, b_to_rotate) >
+		max(int_index(stacks->b, value), place_in_a)) ? RROTATE : ROTATE;
+	if (a_to_rotate == 0 && b_to_rotate > 0)
+		rotate_value_on_top(stacks, stacks->b, value);
+	else if (a_to_rotate > 0 && b_to_rotate > 0)
 		do_op(stacks, direction == ROTATE ? "rr" : "rrr");
 	else if (a_to_rotate > 0 && b_to_rotate == 0)
 		do_op(stacks, direction == ROTATE ? "ra" : "rra");

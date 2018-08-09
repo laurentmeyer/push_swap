@@ -16,7 +16,7 @@ int	simple_selection(t_stacks *stacks)
 		if (int_min_index(stacks->a) == stacks->a->count - 1)
 			do_op(stacks, "pb");
 		else
-			rotate_min_a_on_top(stacks);
+			rotate_value_on_top(stacks, stacks->a, int_min(stacks->a));
 	}
 	return (0);
 }
