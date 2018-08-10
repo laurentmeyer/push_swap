@@ -23,6 +23,13 @@
 # define DESCENDING 0
 # define ASCENDING 1
 # define ALGO_COUNT 2
+# define DIR_NONE 0
+# define DIR_RA 1
+# define DIR_RB 2
+# define DIR_RR 3
+# define DIR_REV_RA 4
+# define DIR_REV_RB 5
+# define DIR_REV_RR 6
 
 typedef struct	s_display
 {
@@ -77,6 +84,7 @@ int				should_pa(t_stacks *stacks, t_int_array *lds);
 int 			should_rrb(t_stacks *stacks, t_int_array *lds);
 int 			swapped_if_opportunity(t_stacks *stacks);
 int				swap_a_if_necessary(t_stacks *stacks);
+t_int_array		*distance_array(t_stacks *stacks);
 
 
 #endif

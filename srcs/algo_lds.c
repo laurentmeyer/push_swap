@@ -1,8 +1,8 @@
 #include "push_swap.h"
 #include "int_array.h"
 
-#define SORT_A_IN_B 0
-#define SORT_B_IN_A 1
+#define A_IN_B_LDS 0
+#define B_IN_A_LDS 1
 #define B_IN_A_SELECT 2
 
 void a_in_b(t_stacks *stacks, t_lds_algo *algo)
@@ -18,7 +18,8 @@ void a_in_b(t_stacks *stacks, t_lds_algo *algo)
 	else if (0 == lds->count)
 	{
 		if (swappable_decreasing(stacks->a->data, stacks->a->count))
-			algo->step = SORT_B_IN_A;
+			// algo->step = B_IN_A_LDS;
+			algo->step = B_IN_A_SELECT;
 		free_int_array(lds);
 		lds = NULL;
 	}
@@ -60,7 +61,38 @@ void b_in_a_lds(t_stacks *stacks, t_lds_algo *algo)
 	}
 }
 
-void b_in_a_select(t_stacks *stacks)
+
+void 			b_in_a_distance(t_stacks *stacks)
+{
+	t_int_array *dst;
+	int			to_push;
+
+	dst = NULL;
+	if (0 == stacks->b->count)
+		rotate_value_on_top(stacks, stacks->a, int_min(stacks->a));
+	else if (0 != swap_a_if_necessary(stacks))
+		;
+	// else if (should_pa(stacks, NULL))
+	// 	do_op(stacks, "pa");
+	else if (NULL == (dst = distance_array(stacks)))
+		exit_message(0, "algo_LDS failed\n");
+	else
+	{
+		// int debug[100];
+		// int d;
+		// d = -1;
+		// while (++d < dst->count)
+		// 	debug[d] = (dst->data)[d];
+		// while (d < 100)
+		// 	debug[d++] = -1;
+		to_push = (stacks->b->data)[int_index(dst, int_min(dst))];
+		try_push_b_value_in_sorted_a(stacks, to_push);
+	}
+	if (NULL != dst)
+		free_int_array(dst);
+}
+
+void			b_in_a_select(t_stacks *stacks)
 {
 	if (0 == stacks->b->count)
 		rotate_value_on_top(stacks, stacks->a, int_min(stacks->a));
@@ -82,7 +114,7 @@ int algo_lds(t_stacks *stacks)
 	{
 		if (NULL == (algo = (t_lds_algo *)malloc(sizeof(t_lds_algo))))
 			exit_message(0, "algo_LDS failed\n");
-		algo->step = SORT_A_IN_B;
+		algo->step = A_IN_B_LDS;
 		algo->selection_count = 0;
 	}
 	if (0 == stacks->b->count && is_sorted(stacks->a))
@@ -92,11 +124,12 @@ int algo_lds(t_stacks *stacks)
 	}
 	if (0 != swapped_if_opportunity(stacks))
 		;
-	else if (SORT_A_IN_B == algo->step)
+	else if (A_IN_B_LDS == algo->step)
 		a_in_b(stacks, algo);
-	else if (SORT_B_IN_A == algo->step)
+	else if (B_IN_A_LDS == algo->step)
 		b_in_a_lds(stacks, algo);
 	else if (B_IN_A_SELECT == algo->step)
-		b_in_a_select(stacks);
+		// b_in_a_select(stacks);
+		b_in_a_distance(stacks);
 	return (0);
 }

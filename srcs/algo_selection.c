@@ -1,6 +1,4 @@
 #include "push_swap.h"
-#include <limits.h>
-
 
 int	simple_selection(t_stacks *stacks)
 {
