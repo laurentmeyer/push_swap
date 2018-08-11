@@ -43,12 +43,19 @@ static int	read_buf(char buf[BUFF_SIZE + 2], int fd, char **start)
 	return (1);
 }
 
-int			gnlite(const int fd, char **line)
+/*
+** avant, gnlite contenait cette verif:
+** if (next || (next = start + ft_strlen(start)) != buf + BUFF_SIZE)
+** mais retourne des strings vides, pb pour push swap. Je ne sais plus pourquoi
+** j'avais mis cette ligne ...
+*/
+
+int gnlite(const int fd, char **line)
 {
-	static char		buf[BUFF_SIZE + 2] = {'\0'};
-	static char		*start = buf;
-	char			*next;
-	int				r;
+	static char buf[BUFF_SIZE + 2] = {'\0'};
+	static char *start = buf;
+	char *next;
+	int r;
 
 	if (!line || !(*line = ft_strdup("")))
 		return (ERR);
@@ -59,7 +66,7 @@ int			gnlite(const int fd, char **line)
 		if ((next = ft_strchr(start, '\n')))
 			*next = '\0';
 		*line = append(*line, start);
-		if (next || (next = start + ft_strlen(start)) != buf + BUFF_SIZE)
+		if (next)
 		{
 			start = next + 1;
 			return (1);

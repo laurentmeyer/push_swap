@@ -9,8 +9,6 @@ static void		print_instructions_exit(t_list *list)
 		ft_putchar('\n');
 		list = list->next;
 	}
-	// while (1)
-	// 	;
 	exit(0);
 }
 
@@ -44,26 +42,11 @@ static int main_loop(t_stacks *copies)
 	if (ALGO_COUNT == current)
 		print_instructions_exit(shortest_instructions(copies));
 	else if ((0 == current && 1 == simple_selection(&(copies[current])))
-		|| (1 == current && 1 == algo_lds(&(copies[current]))))
+		|| (1 == current && 1 == algo_small(&(copies[current]))))
+		// || (1 == current && 1 == algo_lds(&(copies[current]))))
 		// || (1 == current && 1 == algo_quicksort(&(copies[current]))))
 		current++;
 	return (SUCCESS);
-}
-
-void	normalize_a(t_stacks *original)
-{
-	t_int_array	*normalized;
-	int			i;
-
-	if (NULL == (normalized = int_values_to_ranks(original->a)))
-		exit_message(ERR, "could not normalize\n");
-	i = 0;
-	while (i < normalized->count)
-	{
-		(original->a->data)[i] = (normalized->data)[i];
-		++i;
-	}
-	free_int_array(normalized);
 }
 
 int main(int ac, char **av)
@@ -77,20 +60,25 @@ int main(int ac, char **av)
 	if (0 == --ac || NULL == *(++av))
 		exit_message(ERR, "Error\n");
 	init_stacks(&original, ac, av);
-	normalize_a(&original);
-	init_display(&original);
-
-
-
-
-
+	normalize_stacks(&original);
+	if (ERR == check_duplicates(&original))
+		exit_message(ERR, "Error\n");
+	if (original.visual)
+	{
+		refresh_display(&(copies[0]));
+		init_display(&original);
+	}
 	i = 0;
 	while (i < ALGO_COUNT)
 		copy_stacks(&(copies[i++]), &original);
-
-	refresh_display(&(copies[0]));
-	mlx_loop_hook(original.display->mlx_ptr, &main_loop, copies);
-	mlx_loop(original.display->mlx_ptr);
+	if (original.visual)
+	{
+		refresh_display(&(copies[0]));
+		mlx_loop_hook(original.display->mlx_ptr, &main_loop, copies);
+		mlx_loop(original.display->mlx_ptr);
+	}
+	while (42)
+		main_loop(copies);
 	return (SUCCESS);
 }
 

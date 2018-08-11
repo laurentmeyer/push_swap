@@ -2,7 +2,7 @@
 
 int	simple_selection(t_stacks *stacks)
 {
-	if (is_sorted(stacks->a))
+	if (is_sorted_descending(stacks->a))
 	{
 		if (stacks->b->count == 0)
 			return (1);

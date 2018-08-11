@@ -11,12 +11,15 @@ SRCFILES =	init_stacks.c		\
 			error.c				\
 			do_op.c				\
 			verifs.c			\
+			verifs_increasing.c	\
+			verifs_decreasing.c	\
 			insertions.c		\
 			rotations.c			\
 			opportunism.c		\
 			algo_lds.c			\
 			algo_selection.c	\
 			algo_quicksort.c	\
+			algo_small.c		\
 			display.c
 
 CCHEADERS = -I./$(HEADERDIR)				\

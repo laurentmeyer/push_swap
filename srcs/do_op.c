@@ -95,6 +95,7 @@ int do_op(t_stacks *stacks, char *s)
 		ret = op_reverse_rotate(stacks->a) && op_reverse_rotate(stacks->b);
 	else
 		ret = ERR;
-	refresh_display(stacks);//
+	if (stacks->visual)
+		refresh_display(stacks);//
 	return (ret);
 }

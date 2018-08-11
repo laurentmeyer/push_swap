@@ -68,3 +68,19 @@ void	copy_stacks(t_stacks *dst, t_stacks *src)
 	dst->display = src->display;
 	dst->instructions = NULL;
 }
+
+void	normalize_stacks(t_stacks *stacks)
+{
+	t_int_array	*normalized;
+	int			i;
+
+	if (NULL == (normalized = int_values_to_ranks(stacks->a)))
+		exit_message(ERR, "could not normalize\n");
+	i = 0;
+	while (i < normalized->count)
+	{
+		(stacks->a->data)[i] = (normalized->data)[i];
+		++i;
+	}
+	free_int_array(normalized);
+}

@@ -18,6 +18,7 @@
 #include <sys/uio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
 
 static int main_loop(t_stacks *stacks)
 {
@@ -27,16 +28,16 @@ static int main_loop(t_stacks *stacks)
 	gnl = gnlite(STDIN_FILENO, &s);
 	if (0 == gnl)
 	{
-		if (is_sorted(stacks->a) && 0 == stacks->b->count)
+		if (is_sorted_descending(stacks->a) && 0 == stacks->b->count)
 			ft_putstr("OK\n");
 		else
 			ft_putstr("KO\n");
-		while (42);//
 		exit(0);
 	}
 	else if (ERR == gnl || ERR == do_op(stacks, s))
 		exit_message(ERR, "Error\n");
-	refresh_display(stacks);
+	if (stacks->visual)
+		refresh_display(stacks);
 	free(s);
 	return (SUCCESS);
 }
@@ -48,7 +49,7 @@ int main(int ac, char **av)
 	if (NULL == (av = ft_argsplit(&ac, av)))
 		exit_message(ERR, "Error\n");
 	if (0 == --ac || NULL == *(++av))
-		exit_message(ERR, "Error\n");
+		return (SUCCESS);
 	stacks.visual = ft_strequ("-v", av[0]);
 	if (stacks.visual == 1)
 	{
@@ -56,10 +57,18 @@ int main(int ac, char **av)
 		++av;
 	}
 	init_stacks(&stacks, ac, av);
-	init_display(&stacks);
-	refresh_display(&stacks);
-	mlx_loop_hook(stacks.display->mlx_ptr, &main_loop, &stacks);
-	mlx_loop(stacks.display->mlx_ptr);
+	normalize_stacks(&stacks);
+	if (ERR == check_duplicates(&stacks))
+		exit_message(ERR, "Error\n");
+	if (stacks.visual)
+	{
+		init_display(&stacks);
+		refresh_display(&stacks);
+		mlx_loop_hook(stacks.display->mlx_ptr, &main_loop, &stacks);
+		mlx_loop(stacks.display->mlx_ptr);
+	}
+	while (42)
+		main_loop(&stacks);
 	return (SUCCESS);
 }
 

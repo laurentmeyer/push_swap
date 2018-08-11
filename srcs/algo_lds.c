@@ -72,19 +72,10 @@ void 			b_in_a_distance(t_stacks *stacks)
 		rotate_value_on_top(stacks, stacks->a, int_min(stacks->a));
 	else if (0 != swap_a_if_necessary(stacks))
 		;
-	// else if (should_pa(stacks, NULL))
-	// 	do_op(stacks, "pa");
 	else if (NULL == (dst = distance_array(stacks)))
 		exit_message(0, "algo_LDS failed\n");
 	else
 	{
-		// int debug[100];
-		// int d;
-		// d = -1;
-		// while (++d < dst->count)
-		// 	debug[d] = (dst->data)[d];
-		// while (d < 100)
-		// 	debug[d++] = -1;
 		to_push = (stacks->b->data)[int_index(dst, int_min(dst))];
 		try_push_b_value_in_sorted_a(stacks, to_push);
 	}
@@ -117,7 +108,7 @@ int algo_lds(t_stacks *stacks)
 		algo->step = A_IN_B_LDS;
 		algo->selection_count = 0;
 	}
-	if (0 == stacks->b->count && is_sorted(stacks->a))
+	if (0 == stacks->b->count && is_sorted_descending(stacks->a))
 	{
 		free(algo);
 		return (1);

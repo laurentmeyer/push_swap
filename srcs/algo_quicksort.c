@@ -197,7 +197,7 @@ int algo_quicksort(t_stacks *stacks)
 
 	if (NULL == algo && NULL == (algo = new_algo_qs(stacks)))
 		exit_message(0, "QS algorithm failed\n");
-	else if (is_sorted(stacks->a) && stacks->b->count == 0)
+	else if (is_sorted_descending(stacks->a) && stacks->b->count == 0)
 	{
 		free_algo_qs(algo);
 		return (1);

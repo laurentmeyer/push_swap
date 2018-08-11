@@ -64,19 +64,22 @@ typedef struct	s_lds_algo
 }				t_lds_algo;
 
 void			init_stacks(t_stacks *stacks, int ac, char **av);
+void			normalize_stacks(t_stacks *stacks);
+int				check_duplicates(t_stacks *stacks);
 void			copy_stacks(t_stacks *dst, t_stacks *src);
 int				exit_message(int exit_code, char *message);
 int				do_op(t_stacks *stacks, char *s);
 void			init_display(t_stacks *stacks);
 void    		refresh_display(t_stacks *stacks);
-int  			is_sorted(t_int_array *array);
+int  			is_sorted_descending(t_int_array *array);
 void			rotate_value_on_top(t_stacks *stacks, t_int_array *stack, int value);
 int				simple_selection(t_stacks *stacks);
+int				algo_small(t_stacks *stacks);
 int				algo_quicksort(t_stacks *stacks);
 int				advanced_selection(t_stacks *stacks);
 t_int_array 	*get_lds(t_int_array *array);
 int				algo_lds(t_stacks *stacks);
-int				sortable_by_rotation(t_int_array *array, int ascending);
+int				descending_by_rotation(t_int_array *array);
 int				try_push_b_value_in_sorted_a(t_stacks *stacks, int value);
 int 			swappable_increasing(int *array, int len);
 int				swappable_decreasing(int *array, int len);
@@ -85,6 +88,8 @@ int 			should_rrb(t_stacks *stacks, t_int_array *lds);
 int 			swapped_if_opportunity(t_stacks *stacks);
 int				swap_a_if_necessary(t_stacks *stacks);
 t_int_array		*distance_array(t_stacks *stacks);
+int				move_a_if_swap_rot_decreasing(t_stacks *stacks);
+int		 		move_b_if_swap_rot_increasing(t_stacks *stacks);
 
 
 #endif
