@@ -66,6 +66,7 @@ void	copy_stacks(t_stacks *dst, t_stacks *src)
 	while (i < src->a->count)
 		int_push(dst->a, src->a->data[i++]);
 	dst->display = src->display;
+	dst->visual = src->visual;
 	dst->instructions = NULL;
 }
 

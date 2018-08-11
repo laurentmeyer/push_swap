@@ -37,14 +37,12 @@ static t_list	*shortest_instructions(t_stacks *stacks)
 
 static int main_loop(t_stacks *copies)
 {
-	static int	current = 1; //
+	static int	current = 0;
 
 	if (ALGO_COUNT == current)
 		print_instructions_exit(shortest_instructions(copies));
-	else if ((0 == current && 1 == simple_selection(&(copies[current])))
-		|| (1 == current && 1 == algo_small(&(copies[current]))))
-		// || (1 == current && 1 == algo_lds(&(copies[current]))))
-		// || (1 == current && 1 == algo_quicksort(&(copies[current]))))
+	else if ((0 == current && 1 == algo_small(&(copies[current])))
+		|| (1 == current && 1 == algo_lds(&(copies[current]))))
 		current++;
 	return (SUCCESS);
 }
@@ -59,27 +57,15 @@ int main(int ac, char **av)
 		exit_message(ERR, "Error\n");
 	if (0 == --ac || NULL == *(++av))
 		exit_message(ERR, "Error\n");
+	original.visual = 0;
 	init_stacks(&original, ac, av);
 	normalize_stacks(&original);
 	if (ERR == check_duplicates(&original))
 		exit_message(ERR, "Error\n");
-	if (original.visual)
-	{
-		refresh_display(&(copies[0]));
-		init_display(&original);
-	}
 	i = 0;
 	while (i < ALGO_COUNT)
 		copy_stacks(&(copies[i++]), &original);
-	if (original.visual)
-	{
-		refresh_display(&(copies[0]));
-		mlx_loop_hook(original.display->mlx_ptr, &main_loop, copies);
-		mlx_loop(original.display->mlx_ptr);
-	}
 	while (42)
 		main_loop(copies);
 	return (SUCCESS);
 }
-
-// erreur en cas de doublon

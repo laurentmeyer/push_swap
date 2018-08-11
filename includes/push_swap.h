@@ -71,25 +71,17 @@ int				exit_message(int exit_code, char *message);
 int				do_op(t_stacks *stacks, char *s);
 void			init_display(t_stacks *stacks);
 void    		refresh_display(t_stacks *stacks);
-int  			is_sorted_descending(t_int_array *array);
-void			rotate_value_on_top(t_stacks *stacks, t_int_array *stack, int value);
-int				simple_selection(t_stacks *stacks);
 int				algo_small(t_stacks *stacks);
-int				algo_quicksort(t_stacks *stacks);
-int				advanced_selection(t_stacks *stacks);
-t_int_array 	*get_lds(t_int_array *array);
+t_int_array		*distance_array(t_stacks *stacks);
 int				algo_lds(t_stacks *stacks);
+int  			is_sorted_descending(t_int_array *array);
 int				descending_by_rotation(t_int_array *array);
-int				try_push_b_value_in_sorted_a(t_stacks *stacks, int value);
 int 			swappable_increasing(int *array, int len);
 int				swappable_decreasing(int *array, int len);
-int				should_pa(t_stacks *stacks, t_int_array *lds);
-int 			should_rrb(t_stacks *stacks, t_int_array *lds);
-int 			swapped_if_opportunity(t_stacks *stacks);
+void			rotate_value_on_top(t_stacks *stacks, t_int_array *stack, int value);
 int				swap_a_if_necessary(t_stacks *stacks);
-t_int_array		*distance_array(t_stacks *stacks);
 int				move_a_if_swap_rot_decreasing(t_stacks *stacks);
 int		 		move_b_if_swap_rot_increasing(t_stacks *stacks);
-
+int				try_push_b_value_in_sorted_a(t_stacks *stacks, int value);
 
 #endif

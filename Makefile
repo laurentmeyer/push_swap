@@ -14,11 +14,8 @@ SRCFILES =	init_stacks.c		\
 			verifs_increasing.c	\
 			verifs_decreasing.c	\
 			insertions.c		\
-			rotations.c			\
-			opportunism.c		\
+			rotations_swaps.c	\
 			algo_lds.c			\
-			algo_selection.c	\
-			algo_quicksort.c	\
 			algo_small.c		\
 			display.c
 
