@@ -46,6 +46,7 @@ typedef struct	s_display
 	int			pixels_per_col;
 	int			win_h;
 	int			win_w;
+	int			nanoseconds;
 }				t_display;
 
 typedef struct	s_stacks
@@ -60,13 +61,14 @@ typedef struct	s_stacks
 typedef struct	s_lds_algo
 {
 	int			step;
-	int			selection_count;
 }				t_lds_algo;
 
-void			init_stacks(t_stacks *stacks, int ac, char **av);
+t_stacks		*init_stacks(int ac, char **av);
 void			normalize_stacks(t_stacks *stacks);
 int				check_duplicates(t_stacks *stacks);
 void			copy_stacks(t_stacks *dst, t_stacks *src);
+void			free_stack(t_stacks *stack);
+void			free_push_swap(t_stacks **stacks);
 int				exit_message(int exit_code, char *message);
 int				do_op(t_stacks *stacks, char *s);
 void			init_display(t_stacks *stacks);

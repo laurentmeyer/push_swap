@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
+#include <fcntl.h>
 
 static int main_loop(t_stacks *stacks)
 {
@@ -32,6 +33,7 @@ static int main_loop(t_stacks *stacks)
 			ft_putstr("OK\n");
 		else
 			ft_putstr("KO\n");
+		free_stack(stacks);
 		exit(0);
 	}
 	else if (ERR == gnl || ERR == do_op(stacks, s))
@@ -42,34 +44,45 @@ static int main_loop(t_stacks *stacks)
 	return (SUCCESS);
 }
 
+static t_stacks	*init_checker(int ac, char **av)
+{
+	int			visual;
+	t_stacks	*ret;
+
+	if ((visual = ft_strequ("-v", av[0])) == 1)
+	{
+		--ac;
+		++av;
+	}
+	if (NULL == (ret = init_stacks(ac, av)))
+		return (NULL);
+	ret->visual = visual;
+	if (ERR == check_duplicates(ret))
+		exit_message(ERR, "Error\n");
+	normalize_stacks(ret);
+	if (ret->visual)
+	{
+		init_display(ret);
+		refresh_display(ret);
+		mlx_loop_hook(ret->display->mlx_ptr, &main_loop, ret);
+	}
+	return (ret);
+}
+
 int main(int ac, char **av)
 {
-	t_stacks stacks;
+	t_stacks *stack;
 
 	if (NULL == (av = ft_argsplit(&ac, av)))
 		exit_message(ERR, "Error\n");
 	if (0 == --ac || NULL == *(++av))
 		return (SUCCESS);
-	stacks.visual = ft_strequ("-v", av[0]);
-	if (stacks.visual == 1)
-	{
-		--ac;
-		++av;
-	}
-	init_stacks(&stacks, ac, av);
-	normalize_stacks(&stacks);
-	if (ERR == check_duplicates(&stacks))
-		exit_message(ERR, "Error\n");
-	if (stacks.visual)
-	{
-		init_display(&stacks);
-		refresh_display(&stacks);
-		mlx_loop_hook(stacks.display->mlx_ptr, &main_loop, &stacks);
-		mlx_loop(stacks.display->mlx_ptr);
-	}
-	while (42)
-		main_loop(&stacks);
+	if (NULL == (stack = init_checker(ac, av)))
+		exit_message(ERR, "Could not allocate stacks\n");
+	if (stack->visual)
+		mlx_loop(stack->display->mlx_ptr);
+	else
+		while (42)
+			main_loop(stack);
 	return (SUCCESS);
 }
-
-// bien penser à enlever le comment du Makefile

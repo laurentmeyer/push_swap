@@ -4,6 +4,7 @@
 #define MIN_WIN_H 400
 #define MIN_WIN_W 400
 #define WIN_NAME "checker"
+#define SECONDS 5
 
 static int		get_win_w(t_stacks *stacks)
 {
@@ -39,5 +40,6 @@ void            init_display(t_stacks *stacks)
 	d->chars_per_pixel = d->bits_per_pixel / 8;
 	d->pixels_per_line = d->size_line / d->chars_per_pixel;
     d->pixels_per_col = d->win_w / stacks->a->count;
+	d->nanoseconds = stacks->a->count <= 20 ? 200000000 : 5000;
     stacks->display = d;
 }

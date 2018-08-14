@@ -3,8 +3,6 @@
 #include <time.h>
 #include <stdlib.h>
 
-#define NANOSECONDS 5000l
-
 
 static void pixel_put(t_display *d, int x, int y, unsigned int color)
 {
@@ -46,8 +44,8 @@ static void draw_cols(t_stacks *stacks)
     count = stacks->a->count;
     while (i < count)
     {
-        height = (int)((float)(stacks->a->data)[i]
-                / (stacks->a->count + stacks->b->count) * d->win_h / 2);
+        height = (int)((float)((stacks->a->data)[i] + 1)
+                / (stacks->a->count + stacks->b->count + 1) * d->win_h / 2);
         draw_col(d, 0, i, height);
         ++i;
     }
@@ -55,8 +53,8 @@ static void draw_cols(t_stacks *stacks)
     count = stacks->b->count;
     while (i < count)
     {
-        height = (int)((float)(stacks->b->data)[i]
-                / (stacks->a->count + stacks->b->count) * d->win_h / 2);
+        height = (int)((float)((stacks->b->data)[i] + 1)
+                / (stacks->a->count + stacks->b->count + 1) * d->win_h / 2);
         draw_col(d, 1, i, height);
         ++i;
     }
@@ -78,6 +76,6 @@ void    refresh_display(t_stacks *stacks)
     while (i < count)
         ((unsigned int *)d->data_addr)[i++] = bottom;
     draw_cols(stacks);
-    nanosleep(&((struct timespec){(time_t)0, NANOSECONDS}), NULL);
+    nanosleep(&((struct timespec){(time_t)0, d->nanoseconds}), NULL);
     mlx_put_image_to_window(d->mlx_ptr, d->window, d->img_ptr, 0, 0);
 }

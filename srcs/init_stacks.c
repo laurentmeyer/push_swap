@@ -16,58 +16,32 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#define STRICT 0
+#define STRICT 1
 
-static void allocate_stacks(t_stacks *stacks, int count)
+t_stacks	*init_stacks(int ac, char **av)
 {
-	if (NULL == (stacks->a = new_int_array(count))
-		|| (NULL == (stacks->b = new_int_array(count))))
+	t_stacks	*s;
+	int			i;
+	char		*current;
+
+	if (0 == ac)
+		exit_message(ERR, "Error\n");
+	i = 0;
+	if (!(s = (t_stacks *)malloc(sizeof(t_stacks)))
+		|| !(s->a = new_int_array(ac)) || !(s->b = new_int_array(ac)))
 		exit_message(ERR, "Allocation of stacks failed\n");
-}
-
-static void	fill_stacks(t_stacks *stacks, int ac, char **av)
-{
-	int		i;
-	char	*current;
-
 	i = 0;
 	while (i < ac)
 	{
 		current = av[ac - 1 - i];
 		if (!ft_valid_int_str(current, STRICT))
 			exit_message(ERR, "Error\n");
-		int_push(stacks->a, ft_atoi(current));
+		int_push(s->a, ft_atoi(current));
 		++i;
 	}
-}
-
-void init_stacks(t_stacks *stacks, int ac, char **av)
-{
-	int		count;
-	int		i;
-
-	if (0 == ac)
-		exit_message(ERR, "Error\n");
-	i = 0;
-	count = 0;
-	while (i < ac)
-		count += ft_countwords(av[i++], ' ');
-	allocate_stacks(stacks, count);
-	fill_stacks(stacks, ac, av);
-	stacks->instructions = NULL;
-}
-
-void	copy_stacks(t_stacks *dst, t_stacks *src)
-{
-	int	i;
-
-	allocate_stacks(dst, src->a->count + src->b->count);
-	i = 0;
-	while (i < src->a->count)
-		int_push(dst->a, src->a->data[i++]);
-	dst->display = src->display;
-	dst->visual = src->visual;
-	dst->instructions = NULL;
+	s->display = NULL;
+	s->instructions = NULL;
+	return (s);
 }
 
 void	normalize_stacks(t_stacks *stacks)

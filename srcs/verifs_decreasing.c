@@ -74,8 +74,7 @@ static t_int_array	*swaps_indices(t_int_array *a)
 	while (i < a->count)
 	{
 		j = (i + 1) % a->count;
-		if (!(int_min(a) == (copy->data)[i])
-			&& (a->data)[i] < (a->data)[j])
+		if (!(int_min(a) == (copy->data)[i]) && (a->data)[i] < (a->data)[j])
 		{
 			ft_swap_int(copy->data + i++, copy->data + j);
 			int_push(ret, j);
@@ -93,23 +92,25 @@ int move_a_if_swap_rot_decreasing(t_stacks *stacks)
 {
 	t_int_array *indices;
 	int			rot;
-	int 		rev;
-	char*		to_do;
+	int rev;
+	char *to_do;
 
-	if (stacks->a->count <= 1 || NULL == (indices = swaps_indices(stacks->a))
-		|| indices->count <= 0)
+	if (stacks->a->count <= 1 || NULL == (indices = swaps_indices(stacks->a)))
 		return (0);
-	rot = 0;
-	rev = stacks->a->count - 1;
-	to_do = int_index(indices, stacks->a->count - 1) >= 0 ? "sa" : NULL;
-	while (NULL == to_do && rot <= rev)
+	if (indices->count > 0)
 	{
-		if (int_index(indices, stacks->a->count - 1 - rev--) >= 0)
-			to_do = "rra";
-		else if (int_index(indices, stacks->a->count - 1 - rot++) >= 0)
-			to_do = "ra";
+		rot = 0;
+		rev = stacks->a->count - 1;
+		to_do = int_index(indices, stacks->a->count - 1) >= 0 ? "sa" : NULL;
+		while (NULL == to_do && rot <= rev)
+		{
+			if (int_index(indices, stacks->a->count - 1 - rev--) >= 0)
+				to_do = "rra";
+			else if (int_index(indices, stacks->a->count - 1 - rot++) >= 0)
+				to_do = "ra";
+		}
+		do_op(stacks, to_do);
 	}
-	do_op(stacks, to_do);
 	free_int_array(indices);
-	return (1);
+	return (indices->count > 0);
 }

@@ -71,8 +71,6 @@ void			count_moves(t_stacks *stacks, int value, t_distance *dis)
 		dis->direction = dis->ra > 0 ? DIR_RA : DIR_REV_RB;
 	else if (dis->shortest == dis->rbrra)
 		dis->direction = dis->rb > 0 ? DIR_RB : DIR_REV_RA;
-	if (value == 64 || value == 81) //
-		value++;
 }
 
 t_int_array		*distance_array(t_stacks *stacks)

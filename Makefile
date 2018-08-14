@@ -9,6 +9,7 @@ HEADERDIR = includes
 SRCFILES =	init_stacks.c		\
 			init_display.c		\
 			error.c				\
+			free.c				\
 			do_op.c				\
 			verifs.c			\
 			verifs_increasing.c	\

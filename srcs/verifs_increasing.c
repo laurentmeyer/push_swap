@@ -96,20 +96,22 @@ int 		move_b_if_swap_rot_increasing(t_stacks *stacks)
 	int 		rev;
 	char*		to_do;
 
-	if (stacks->b->count <= 1 || NULL == (indices = swaps_indices(stacks->a))
-		|| indices->count <= 0)
+	if (stacks->b->count <= 1 || NULL == (indices = swaps_indices(stacks->a)))
 		return (0);
-	rot = 0;
-	rev = stacks->a->count - 1;
-	to_do = int_index(indices, stacks->a->count - 1) >= 0 ? "sb" : NULL;
-	while (NULL == to_do && rot <= rev)
+	if (indices->count > 0)
 	{
-		if (int_index(indices, stacks->a->count - 1 - rev--) >= 0)
-			to_do = "rrb";
-		else if (int_index(indices, stacks->a->count - 1 - rot++) >= 0)
-			to_do = "rb";
+		rot = 0;
+		rev = stacks->a->count - 1;
+		to_do = int_index(indices, stacks->a->count - 1) >= 0 ? "sb" : NULL;
+		while (NULL == to_do && rot <= rev)
+		{
+			if (int_index(indices, stacks->a->count - 1 - rev--) >= 0)
+				to_do = "rrb";
+			else if (int_index(indices, stacks->a->count - 1 - rot++) >= 0)
+				to_do = "rb";
+		}
+		do_op(stacks, to_do);
 	}
-	do_op(stacks, to_do);
 	free_int_array(indices);
-	return (1);
+	return (indices->count > 0);
 }

@@ -52,17 +52,17 @@ int algo_lds(t_stacks *stacks)
 {
 	static t_lds_algo *algo = NULL;
 
-	if (NULL == algo)
+	if (0 == stacks->b->count && is_sorted_descending(stacks->a))
+	{
+		if (NULL != algo)
+		free(algo);
+		return (1);
+	}
+	else if (NULL == algo)
 	{
 		if (NULL == (algo = (t_lds_algo *)malloc(sizeof(t_lds_algo))))
 			exit_message(0, "algo_LDS failed\n");
 		algo->step = A_IN_B_LDS;
-		algo->selection_count = 0;
-	}
-	if (0 == stacks->b->count && is_sorted_descending(stacks->a))
-	{
-		free(algo);
-		return (1);
 	}
 	else if (A_IN_B_LDS == algo->step)
 		a_in_b(stacks, algo);

@@ -16,11 +16,11 @@ int	algo_small(t_stacks *stacks)
 	{
 		if (NULL == (dst = distance_array(stacks)))
 			exit_message(0, "algo_simple failed\n");
-		try_push_b_value_in_sorted_a(stacks, (stacks->b->data)[int_index(dst, int_min(dst))]);
+		try_push_b_value_in_sorted_a(stacks,
+			(stacks->b->data)[int_index(dst, int_min(dst))]);
+		free_int_array(dst);
 	}
 	else
 		do_op(stacks, "pb");
-	if (NULL != dst)
-		free_int_array(dst);
 	return (0);
 }

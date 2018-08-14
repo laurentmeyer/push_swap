@@ -245,7 +245,7 @@ t_int_array *int_values_to_ranks(t_int_array *array)
 		min = int_index(array, int_remove(tmp, int_min_index(tmp)));
 		(res->data)[min] = cur++;
 	}
-	free(tmp);
+	free_int_array(tmp);
 	return (res);
 }
 
