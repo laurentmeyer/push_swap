@@ -30,7 +30,7 @@ char		**ft_strsplit(char const *s, char c)
 			while (*s == c)
 				++s;
 			j = 0;
-			while (*(s + j) != c)
+			while (*(s + j) != '\0' && *(s + j) != c) 
 				++j;
 			if ((arr[i] = ft_strnew(j)))
 				ft_strncpy(arr[i++], s, j);
