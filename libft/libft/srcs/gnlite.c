@@ -67,7 +67,7 @@ int			gnlite(const int fd, char **line)
 		if ((next = ft_strchr(start, '\n')))
 			*next = '\0';
 		*line = append(*line, start);
-		if (next || (next = start + ft_strlen(start)) != buf + BUFF_SIZE)
+		if (next)
 		{
 			start = next + 1;
 			return (1);
