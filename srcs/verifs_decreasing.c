@@ -1,7 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   verifs_decreasing.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/25 10:17:52 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/08/25 10:17:53 by lmeyer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 #include "int_array.h"
 
-int  is_sorted_descending(t_int_array *array)
+int					is_sorted_descending(t_int_array *array)
 {
 	int i;
 
@@ -17,7 +29,7 @@ int  is_sorted_descending(t_int_array *array)
 	return (1);
 }
 
-int swappable_decreasing(int *array, int len)
+int					swappable_decreasing(int *array, int len)
 {
 	int	*copy;
 	int	i;
@@ -41,7 +53,7 @@ int swappable_decreasing(int *array, int len)
 	return (i == len - 1);
 }
 
-int		descending_by_rotation(t_int_array *array)
+int					descending_by_rotation(t_int_array *array)
 {
 	t_int_array	*copy;
 	int			max_ind;
@@ -68,10 +80,11 @@ static t_int_array	*swaps_indices(t_int_array *a)
 	int			i;
 	int			j;
 
-	if (!(copy = copy_int_array(a)) || !(ret = new_int_array(a->count)))
+	if (!(copy = copy_int_array(a))
+		|| !(ret = new_int_array(a->count)))
 		return (NULL);
-	i = 0;
-	while (i < a->count)
+	i = -1;
+	while (++i < a->count)
 	{
 		j = (i + 1) % a->count;
 		if (!(int_min(a) == (copy->data)[i]) && (a->data)[i] < (a->data)[j])
@@ -79,7 +92,6 @@ static t_int_array	*swaps_indices(t_int_array *a)
 			ft_swap_int(copy->data + i++, copy->data + j);
 			int_push(ret, j);
 		}
-		++i;
 	}
 	i = descending_by_rotation(copy);
 	free_int_array(copy);
@@ -88,12 +100,12 @@ static t_int_array	*swaps_indices(t_int_array *a)
 	return (0 == i ? NULL : ret);
 }
 
-int move_a_if_swap_rot_decreasing(t_stacks *stacks)
+int					move_a_if_swap_rot_decreasing(t_stacks *stacks)
 {
-	t_int_array *indices;
+	t_int_array	*indices;
 	int			rot;
-	int rev;
-	char *to_do;
+	int			rev;
+	char		*to_do;
 
 	if (stacks->a->count <= 1 || NULL == (indices = swaps_indices(stacks->a)))
 		return (0);

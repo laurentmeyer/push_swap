@@ -21,7 +21,7 @@
 #include <errno.h>
 #include <fcntl.h>
 
-static int main_loop(t_stacks *stacks)
+static int		main_loop(t_stacks *stacks)
 {
 	int			gnl;
 	char		*s;
@@ -69,7 +69,7 @@ static t_stacks	*init_checker(int ac, char **av)
 	return (ret);
 }
 
-int main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_stacks *stack;
 

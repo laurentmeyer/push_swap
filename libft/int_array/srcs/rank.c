@@ -1,25 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_strsplit.c                                 :+:      :+:    :+:   */
+/*   rank.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/28 20:26:07 by lmeyer            #+#    #+#             */
-/*   Updated: 2018/09/28 20:26:20 by lmeyer           ###   ########.fr       */
+/*   Created: 2018/09/28 19:49:40 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/09/28 19:51:00 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "int_array.h"
 #include <stdlib.h>
 
-void	ft_free_strsplit(char ***to_free)
+t_int_array	*int_values_to_ranks(t_int_array *array)
 {
-	char	**as;
-	int		i;
+	t_int_array	*tmp;
+	t_int_array	*res;
+	int			min;
+	int			cur;
 
-	i = 0;
-	while (*(as = *to_free + i++))
-		ft_strdel(as);
-	free(*to_free);
+	if (!(tmp = copy_int_array(array)) ||
+		!(res = copy_int_array(array)))
+		return (NULL);
+	cur = 0;
+	while (tmp->count > 0)
+	{
+		min = int_index(array, int_remove(tmp, int_index(tmp, int_min(tmp))));
+		(res->data)[min] = cur++;
+	}
+	free_int_array(tmp);
+	return (res);
 }

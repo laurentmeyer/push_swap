@@ -1,5 +1,5 @@
 CC = 		gcc
-CFLAGS =	-g -Wall -Wextra -Werror
+CFLAGS =	-Wall -Wextra -Werror
 CHECKER =	checker
 PUSHSWAP =	push_swap
 BUILDDIR =	builds
@@ -18,11 +18,14 @@ SRCFILES =	init_stacks.c		\
 			rotations_swaps.c	\
 			algo_lds.c			\
 			algo_small.c		\
-			display.c
+			display.c			\
+			math.c
 
 CCHEADERS = -I./$(HEADERDIR)				\
 			-I$(LIBFT)/libft/includes		\
 			-I$(LIBFT)/ft_printf/includes	\
+			-I$(LIBFT)/int_array/includes	\
+			-I$(LIBFT)/lds/includes	\
 			-I$(MINILIB)
 
 LIBFT = 	./libft

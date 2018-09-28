@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   push_swap.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/25 10:17:10 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/08/25 10:17:12 by lmeyer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 #include <limits.h>
 #include <fcntl.h>
@@ -75,7 +87,7 @@ static t_stacks	**init_push_swap(int ac, char **av)
 	return (ret);
 }
 
-int main(int ac, char **av)
+int				main(int ac, char **av)
 {
 	t_stacks	**stacks;
 

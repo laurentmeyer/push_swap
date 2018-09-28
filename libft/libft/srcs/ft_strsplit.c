@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/04 15:35:52 by lmeyer            #+#    #+#             */
-/*   Updated: 2016/11/21 16:36:24 by lmeyer           ###   ########.fr       */
+/*   Created: 2018/09/28 20:29:31 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/09/28 20:29:39 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char		**ft_strsplit(char const *s, char c)
 			while (*s == c)
 				++s;
 			j = 0;
-			while (*(s + j) != '\0' && *(s + j) != c) 
+			while (*(s + j) != '\0' && *(s + j) != c)
 				++j;
 			if ((arr[i] = ft_strnew(j)))
 				ft_strncpy(arr[i++], s, j);

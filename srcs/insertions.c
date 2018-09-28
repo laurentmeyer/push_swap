@@ -1,35 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   insertions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/25 10:16:54 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/09/28 16:37:40 by lmeyer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 #include "int_array.h"
 
-typedef struct	s_distance
-{
-	int			ra;
-	int			rb;
-	int			rra;
-	int			rrb;
-	int			rr;
-	int			rrr;
-	int			rarrb;
-	int			rbrra;
-	int			shortest;
-	int			direction;
-}				t_distance;
-
-static int	max(int a, int b)
-{
-	return (a > b ? a : b);
-}
-
-static int	min(int a, int b)
-{
-	return (a > b ? b : a);
-}
-
-int predecessor_index(t_int_array *array, int to_place)
+int			predecessor_index(t_int_array *array, int to_place)
 {
 	int	i;
 
-	i = int_min_index(array);
+	i = int_index(array, int_min(array));
 	if (to_place < (array->data)[i])
 		return (i);
 	i = int_index(array, int_max(array));
@@ -48,7 +36,7 @@ int predecessor_index(t_int_array *array, int to_place)
 	return (-1);
 }
 
-void			count_moves(t_stacks *stacks, int value, t_distance *dis)
+void		count_moves(t_stacks *stacks, int value, t_distance *dis)
 {
 	dis->rra = predecessor_index(stacks->a, value) + 1;
 	dis->rrb = int_index(stacks->b, value) + 1;
@@ -73,7 +61,7 @@ void			count_moves(t_stacks *stacks, int value, t_distance *dis)
 		dis->direction = dis->rb > 0 ? DIR_RB : DIR_REV_RA;
 }
 
-t_int_array		*distance_array(t_stacks *stacks)
+t_int_array	*distance_array(t_stacks *stacks)
 {
 	t_int_array	*ret;
 	t_distance	dis;
@@ -91,8 +79,7 @@ t_int_array		*distance_array(t_stacks *stacks)
 	return (ret);
 }
 
-
-int try_push_b_value_in_sorted_a(t_stacks *stacks, int value)
+int			try_push_b_value_in_sorted_a(t_stacks *stacks, int value)
 {
 	t_distance	dis;
 

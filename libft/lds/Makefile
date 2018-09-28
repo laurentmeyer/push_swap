@@ -1,29 +1,16 @@
 CC = 		gcc
 CFLAGS =	-Wall -Wextra -Werror
-NAME =		libftprintf.a
+NAME =		libft_lds.a
 BUILDDIR =	builds
 SOURCEDIR =	srcs
 HEADERDIR = includes
 
 CCHEADERS = -I./$(HEADERDIR)		\
-			-I../libft/includes
+			-I../libft/includes		\
+			-I../int_array/includes
 
-SRCFILES =	ft_printf.c				\
-			ft_asprintf.c			\
-			ft_sprintf.c			\
-			ft_dprintf.c			\
-			get_conversion.c		\
-			get_handler.c			\
-			get_modifier.c			\
-			get_flags.c				\
-			get_precision.c			\
-			get_width.c				\
-			handler_integers.c		\
-			handler_percent.c		\
-			handler_string.c		\
-			handler_char.c			\
-			handler_pointer.c		\
-			ft_itoa_base_max.c
+SRCFILES =	algo.c					\
+			init.c
 
 SOURCES =	$(SRCFILES:%.c=$(SOURCEDIR)/%.c)
 OBJECTS =	$(SOURCES:$(SOURCEDIR)/%.c=$(BUILDDIR)/%.o)

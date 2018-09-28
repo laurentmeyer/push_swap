@@ -11,6 +11,8 @@
                 "/usr/include",
                 "${workspaceFolder}/libft/libft/includes",
                 "${workspaceFolder}/libft/ft_printf/includes",
+                "${workspaceFolder}/libft/int_array/includes",
+                "${workspaceFolder}/libft/lds/includes",
                 "${workspaceFolder}/includes"
             ],
             "defines": [],

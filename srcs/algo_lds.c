@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algo_lds.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/25 10:14:56 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/08/25 10:14:58 by lmeyer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 #include "int_array.h"
 
 #define A_IN_B_LDS 0
 #define B_IN_A_DISTANCE 1
 
-void a_in_b(t_stacks *stacks, t_lds_algo *algo)
+void	a_in_b(t_stacks *stacks, t_lds_algo *algo)
 {
-	static t_int_array *lds = NULL;
-	int index;
+	static t_int_array	*lds = NULL;
+	int					index;
 
 	if (NULL == lds && NULL == (lds = get_lds_int_array(stacks->a)))
 		exit_message(0, "algo_LDS failed\n");
@@ -27,7 +39,7 @@ void a_in_b(t_stacks *stacks, t_lds_algo *algo)
 		do_op(stacks, "pb");
 }
 
-void 			b_in_a_distance(t_stacks *stacks)
+void	b_in_a_distance(t_stacks *stacks)
 {
 	t_int_array *dst;
 	int			to_push;
@@ -48,14 +60,14 @@ void 			b_in_a_distance(t_stacks *stacks)
 		free_int_array(dst);
 }
 
-int algo_lds(t_stacks *stacks)
+int		algo_lds(t_stacks *stacks)
 {
 	static t_lds_algo *algo = NULL;
 
 	if (0 == stacks->b->count && is_sorted_descending(stacks->a))
 	{
 		if (NULL != algo)
-		free(algo);
+			free(algo);
 		return (1);
 	}
 	else if (NULL == algo)

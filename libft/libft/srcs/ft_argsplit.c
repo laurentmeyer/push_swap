@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_argsplit.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/09/28 17:51:40 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/09/28 20:27:06 by lmeyer           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <stdlib.h>
 
 static char	**allocate_args(int *aac, char **av)
 {
 	int		ac;
-	int 	i;
+	int		i;
 	char	**ret;
 
 	ac = *aac;
@@ -18,10 +30,10 @@ static char	**allocate_args(int *aac, char **av)
 	return (ret);
 }
 
-static char **fill_args(char **dst, char *src, int *index)
+static char	**fill_args(char **dst, char *src, int *index)
 {
-	int i;
-	char **tmp;
+	int		i;
+	char	**tmp;
 
 	if (NULL == (tmp = ft_strsplit(src, ' ')))
 		return (NULL);
@@ -36,12 +48,12 @@ static char **fill_args(char **dst, char *src, int *index)
 	return (dst);
 }
 
-char **ft_argsplit(int *aac, char **av)
+char		**ft_argsplit(int *aac, char **av)
 {
-	int i;
-	int j;
-	int ac;
-	char **ret;
+	int		i;
+	int		j;
+	int		ac;
+	char	**ret;
 
 	ac = *aac;
 	ret = NULL;

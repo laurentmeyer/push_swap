@@ -1,33 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   verifs.c                                           :+:      :+:    :+:   */
+/*   min_max.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lmeyer <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/25 10:17:38 by lmeyer            #+#    #+#             */
-/*   Updated: 2018/08/25 10:17:39 by lmeyer           ###   ########.fr       */
+/*   Created: 2018/09/28 19:44:46 by lmeyer            #+#    #+#             */
+/*   Updated: 2018/09/28 19:48:07 by lmeyer           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "int_array.h"
+#include <limits.h>
 
-int	check_duplicates(t_stacks *stacks)
+int				int_min(t_int_array *array)
 {
-	int i;
-	int j;
+	int	i;
+	int min;
+	int	cur;
 
 	i = 0;
-	while (i < stacks->a->count - 1)
+	min = INT_MAX;
+	while (i < array->count)
 	{
-		j = i + 1;
-		while (j < stacks->a->count)
-		{
-			if ((stacks->a->data)[i] == (stacks->a->data)[j])
-				return (ERR);
-			++j;
-		}
-		++i;
+		if ((cur = (array->data)[i]) < min)
+			min = cur;
+		i++;
 	}
-	return (SUCCESS);
+	return (min);
+}
+
+int				int_max(t_int_array *array)
+{
+	int	i;
+	int max;
+	int	cur;
+
+	i = 0;
+	max = INT_MIN;
+	while (i < array->count)
+	{
+		if ((cur = (array->data)[i]) > max)
+			max = cur;
+		i++;
+	}
+	return (max);
 }

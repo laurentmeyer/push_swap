@@ -46,7 +46,7 @@ int					ft_valid_int_str(char *s, int strict)
 	long int	l;
 
 	i = 0;
-	if (strict && !ft_isdigit(s[i]))
+	if (strict && !ft_isdigit(s[i]) && s[i] != '-')
 		return (0);
 	while (s[i] && !ft_isdigit(s[i]))
 		++i;

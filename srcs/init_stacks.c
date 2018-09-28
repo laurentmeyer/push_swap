@@ -28,7 +28,8 @@ t_stacks	*init_stacks(int ac, char **av)
 		exit_message(ERR, "Error\n");
 	i = 0;
 	if (!(s = (t_stacks *)malloc(sizeof(t_stacks)))
-		|| !(s->a = new_int_array(ac)) || !(s->b = new_int_array(ac)))
+		|| !(s->a = new_int_array(ac))
+		|| !(s->b = new_int_array(ac)))
 		exit_message(ERR, "Allocation of stacks failed\n");
 	i = 0;
 	while (i < ac)
@@ -44,7 +45,7 @@ t_stacks	*init_stacks(int ac, char **av)
 	return (s);
 }
 
-void	normalize_stacks(t_stacks *stacks)
+void		normalize_stacks(t_stacks *stacks)
 {
 	t_int_array	*normalized;
 	int			i;

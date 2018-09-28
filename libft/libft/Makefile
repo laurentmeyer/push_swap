@@ -88,10 +88,9 @@ SRCFILES =	ft_memset.c			\
 			ft_argsplit.c		\
 			btree_create_node.c	\
 			btree_insert_node.c	\
-			sort_int_array.c	\
 			ft_swap_int.c		\
-			int_array.c			\
-			lds.c
+			ft_mlx_window.c		\
+			ft_mlx_image.c
 
 CCHEADERS = -I./$(HEADERDIR)		\
 			-I../libft/includes		\
