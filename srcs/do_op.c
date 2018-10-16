@@ -71,7 +71,7 @@ int				do_op(t_stacks *st, char *s)
 	char	instruction[4];
 	int		r;
 
-	ft_strcpy(instruction, s);
+	ft_strncpy(instruction, s, 3);
 	ft_lstappend(&(st->instructions),
 		ft_lstnew(&instruction, sizeof(instruction)));
 	r = ERR;
